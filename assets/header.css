@@ -1,0 +1,23 @@
+header {
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  z-index: 99;
+  width: 100%;
+}
+.theme_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+}
+.header_left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+.header_actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}

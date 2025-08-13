@@ -1,0 +1,71 @@
+<style>
+    .swiper-grand {
+      overflow: hidden;
+    }
+  .slider-wrapper {
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+<div class="horizontal-slide swiper-slide">
+  <div class="slider-wrapper">
+    {% # Vertical Swiper – triggered when a new BLOCK is added inside the fullpage-slider.liquid section %}
+    {% render 'vertical-swiper' %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.horizontal-slide');
+    if (sections.length > 0) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'swiper-wrapper';
+      sections.forEach((section) => {
+        wrapper.appendChild(section);
+      });
+
+      const grandWrapper = document.createElement('div');
+      grandWrapper.className = 'swiper-grand';
+      grandWrapper.appendChild(wrapper);
+      document.body.prepend(grandWrapper);
+    }
+
+    const swiper1 = new Swiper('.swiper-grand', {
+      keyboard: {
+        enabled: true,
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Slider",
+  "class": "slider",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "slide_image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

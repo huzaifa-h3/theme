@@ -1,0 +1,58 @@
+{{ 'header.css' | asset_url | stylesheet_tag }}
+<div class="theme_header">
+  <div class="header_left">
+    <div class="header_menu">
+      <button type="button" class="menu_btn" id="menu_btn">
+        <img src="{{ 'icon-menu.svg' | asset_url }}" width="30" height="40">
+      </button>
+      {% render 'menu-sidebar' %}
+    </div>
+    <div class="header_logo">
+      <a href="{{ routes.root_url }}">
+        {% if settings.logo != blank %}
+          <img src="{{ settings.logo | image_url }}" height="" width="{{ settings.logo_width }}">
+        {% else %}
+          <h1>{{ shop.name }}</h1>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+  <div class="header_right">
+    <div class="header_actions">
+      <button type="button">
+        <img src="{{ 'icon-search.svg' | asset_url }}" width="22" height="32">
+      </button>
+      <a href="{{ routes.account_login_url }}">
+        <img src="{{ 'icon-user.svg' | asset_url }}" width="22" height="32">
+      </a>
+      <a href="{{ routes.cart_url }}">
+        <img src="{{ 'icon-bag.svg' | asset_url }}" width="22" height="32">
+      </a>
+    </div>
+  </div>
+</div>
+ <script src="{{ 'header.js' | asset_url }}" defer ></script>
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Select avigation Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "header",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

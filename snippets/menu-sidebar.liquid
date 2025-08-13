@@ -1,0 +1,54 @@
+<style>
+  .menu_sidebar {
+    width: var(--sidebar-width);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: 0.5s ease-in-out;
+    background-color: white;
+    overflow: hidden;
+  }
+  .menu_sidebar_wrapper {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding: 15px 25px;
+  }
+  #close_menu {
+    position: absolute;
+    right: 3%;
+    top: 1%;
+  }
+  .navigation_menu_item {
+    padding: 10px 0;
+    transition: 0.3s ease-in-out;
+  }
+  .navigation_menu_item:hover {
+    transform: translateX(8px);
+  }
+</style>
+<div class="menu_sidebar">
+  <div class="menu_sidebar_wrapper">
+    <button type="button" id="close_menu">
+      <img src="{{ 'icon-cross.svg' | asset_url }}" width="22" height="32">
+    </button>
+    <div class="header_logo">
+      <a href="{{ routes.root_url }}">
+        {% if settings.logo != blank %}
+          <img src="{{ settings.logo | image_url }}" height="" width="{{ settings.logo_width }}">
+        {% else %}
+          <h1>{{ shop.name }}</h1>
+        {% endif %}
+      </a>
+    </div>
+    <nav class="navigation_menu">
+      {% for link in linklists[section.settings.menu].links %}
+        <li class="navigation_menu_item">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </nav>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<style>
+  .vertical-swiper {
+    width: 100%;
+    height: 100%;
+  }
+  .image_slide {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<div class="vertical-swiper vertical-swiper">
+  <div class="swiper-wrapper">
+    {% for block in section.blocks %}
+      {% if block.type == 'slide' %}
+        <div class="swiper-slide">
+          {% if block.settings.slide_image != blank %}
+            <img class="image_slide" src="{{ block.settings.slide_image | image_url }}" height="" width="">
+          {% else %}
+            {{ 'hero-apparel-2' | placeholder_svg_tag: 'image_slide' }}
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Vertical Swiper – triggered when a new BLOCK is added inside the fullpage-slider.liquid section
+    let verticalSwiper = new Swiper('.vertical-swiper', {
+      direction: 'vertical',
+      mousewheel: true,
+      keyboard: {
+        enabled: true,
+      },
+      grabCursor: true,
+    });
+  });
+</script>

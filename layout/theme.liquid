@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% render 'css-variables' %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
+    {% # Social, title, etc. %}
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+  </head>
+
+  <body>
+    {% sections 'header-group' %}
+
+    {{ content_for_layout }}
+
+    {% sections 'footer-group' %}
+
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+  </body>
+</html>

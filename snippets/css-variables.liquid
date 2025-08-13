@@ -1,0 +1,65 @@
+{% style %}
+  {% liquid
+    assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+    assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+    assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+  %}
+
+  {{ settings.type_body_font | font_face: font_display: 'swap'}}
+  {{ body_font_bold | font_face: font_display: 'swap'}}
+  {{ body_font_italic | font_face: font_display: 'swap'}}
+  {{ body_font_bold_italic | font_face: font_display: 'swap'}}
+
+  {% if settings.type_heading_font != settings.type_body_font %}
+    {% liquid
+      assign heading_font_bold = settings.type_heading_font | font_modify: 'weight', 'bold'
+      assign heading_font_italic = settings.type_heading_font | font_modify: 'style', 'italic'
+      assign heading_font_bold_italic = heading_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {{ settings.type_heading_font | font_face: font_display: 'swap'}}
+    {{ heading_font_bold | font_face: font_display: 'swap'}}
+    {{ heading_font_italic | font_face: font_display: 'swap'}}
+    {{ heading_font_bold_italic | font_face: font_display: 'swap'}}
+  {% endif %}
+
+  :root{
+    /* Page Layout */
+    --sidebar-width: 25rem;
+    --narrow-content-width: 36rem;
+    --normal-content-width: 42rem;
+    --wide-content-width: 46rem;
+    --narrow-page-width: 90rem;
+    --normal-page-width: 120rem;
+    --wide-content-width: 150rem;
+
+    /* Section Height */
+    --section-normal-height: 15rem;
+    --section-medium-height: 25rem;
+    --section-large-height: 35rem;
+
+    @media screen and (min-width: 40em){
+      --section-normal-height: 40svh;
+      --section-medium-height: 55svh;
+      --section-large-height: 70svh;
+    }
+
+    @media screen and (min-width: 60em){
+      --section-normal-height: 50svh;
+      --section-medium-height: 65svh;
+      --section-large-height: 80svh;
+    }
+
+    /* Letter Spacing */
+    --letter-spacing-sm: 0.06rem;
+    --letter-spacing-md: 0.13rem;
+
+    /* Font Families */
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-heading-family: {{ settings.type_heading_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-heading-style: {{ settings.type_heading_font.style }};
+    --font-heading-weight: {{ settings.type_heading_font.weight }};
+  }
+{% endstyle %}

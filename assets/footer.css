@@ -1,0 +1,89 @@
+.theme__footer {
+    padding: 20px 0 40px;
+    position: relative;
+}
+
+.footer__grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    place-items: center;
+    padding: 15px 40px;
+    gap: 20px;
+    background-color: #000000;
+    color: white;
+}
+
+.footer_newsletter {
+    width: 100%;
+    margin: 0 auto;
+    grid-column: 1 / span 3;
+    margin-top: 50px;
+    text-align: center;
+}
+.newsletter-email{
+    position: relative;
+    width: 400px;
+    margin: 15px auto;
+}
+.newsletter-email input{
+    border-bottom: 1px solid #000000;
+    padding: 10px;
+    width: 100%;
+}
+.newsletter-email button{
+    position: absolute;
+    top: 22%;
+    right: 0;
+}
+.footer__grid > ul:nth-child(3) {
+    text-align: right;
+}
+
+.footer__grid > ul:nth-child(3) li:hover {
+    transform: translateX(-8px);
+}
+
+.footer__menu_list {
+    height: auto;
+    width: 100%;
+}
+
+.footer__logo {
+    width: 100%;
+    text-align: center;
+}
+
+.footer__menu_list li {
+    list-style-type: none;
+    padding: 5px 0;
+    transition: 0.3s ease-in-out;
+}
+
+.footer__menu_list li:hover {
+    transform: translateX(8px);
+}
+
+.footer_menu_item {
+    text-decoration: none;
+    margin: 20px 0;
+}
+
+.copyright_text {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    grid-column: 1 / span 3;
+}
+
+.copyright_text p {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .footer__grid {
+        grid-template-columns: auto 1fr auto;
+    }
+    .footer_newsletter {
+        margin-top: 30px;
+    }
+}

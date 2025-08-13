@@ -1,0 +1,150 @@
+{{ 'footer.css' | asset_url | stylesheet_tag }}
+
+<div class="theme__footer">
+  <div>
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'newsletter' %}
+          <div class="footer_newsletter" style="margin-top: 130px;">
+            <div class="newsletter_title">{{ block.settings.newsletter_title }}</div>
+            {% form 'customer' %}
+              <div class="newsletter-email">
+                <input type="email" name="contact[email]" placeholder="{{ block.settings.email_input_placeholder }}" required>
+                  <button type="submit"><img src="{{ 'icon-arrow-right.svg' | asset_url }}" width="" height=""></button>
+              </div>
+            {% endform %}
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+  <div class="footer__grid">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'menu' %}
+          <ul class="footer__menu_list">
+            {% for link in linklists[block.settings.menu_1].links %}
+              <li>
+                <a class="footer_menu_item" href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+
+        {% when 'image' %}
+          <div class="footer__logo">
+            <img
+              src="{{ block.settings.footer_logo | image_url }}"
+              alt="{{ block.settings.footer_log.alt | escape }}"
+              height=""
+              width=""
+            >
+          </div>
+
+        {% when 'menu2' %}
+          <ul class="footer__menu_list">
+            {% for link in linklists[block.settings.menu_2].links %}
+              <li>
+                <a class="footer_menu_item" href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+      {% endcase %}
+    {% endfor %}
+    <div class="copyright_text">
+      <p>
+        © {{ 'now' | date: '%Y' }}
+        {{ shop.name }}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</div>
+
+{% if request.page_type == 'index' %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const verticalWrappers = document.querySelectorAll('.vertical-swiper .swiper-wrapper');
+      const footer = document.querySelector('.theme__footer');
+
+      if (verticalWrappers.length > 0 && footer) {
+        verticalWrappers.forEach((wrapper, index) => {
+          let footerClone = index === 0 ? footer : footer.cloneNode(true);
+          footerClone.classList.add('swiper-slide');
+          wrapper.appendChild(footerClone);
+        });
+      }
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [],
+  "blocks": [
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "newsletter_title",
+          "label": "Title",
+          "default": "<h3>Get the latest trend first</h3>"
+        },
+        {
+          "type": "text",
+          "id": "email_input_placeholder",
+          "label": "Email Input Placeholder",
+          "default": "Enter your E-mail"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "label": "Show Social Icons",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu 1",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu_1",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "footer_logo",
+          "label": "Footer Logo"
+        }
+      ]
+    },
+    {
+      "type": "menu2",
+      "name": "Menu 2",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu_2",
+          "label": "Menu"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer"
+    }
+  ]
+}
+{% endschema %}
