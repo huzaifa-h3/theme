@@ -1,7 +1,7 @@
 {{ 'footer.css' | asset_url | stylesheet_tag }}
 
 <div class="theme__footer">
-  <div>
+  <div class="ns">
     {% for block in section.blocks %}
       {% case block.type %}
         {% when 'newsletter' %}
@@ -59,18 +59,39 @@
 </div>
 
 {% if request.page_type == 'index' %}
-  <script>
+  <script> 
     document.addEventListener('DOMContentLoaded', () => {
-      const verticalWrappers = document.querySelectorAll('.vertical-swiper .swiper-wrapper');
-      const footer = document.querySelector('.theme__footer');
+      // Wait for swiper to be initialized
+      setTimeout(() => {
+        const verticalSwipers = document.querySelectorAll('.vertical-swiper');
+        const originalFooter = document.querySelector('.theme__footer');
 
-      if (verticalWrappers.length > 0 && footer) {
-        verticalWrappers.forEach((wrapper, index) => {
-          let footerClone = index === 0 ? footer : footer.cloneNode(true);
-          footerClone.classList.add('swiper-slide');
-          wrapper.appendChild(footerClone);
-        });
-      }
+        if (verticalSwipers.length > 0 && originalFooter) {
+          // Remove footer from its original position
+          originalFooter.remove();
+          
+          verticalSwipers.forEach((swiperElement, index) => {
+            const verticalWrapper = swiperElement.querySelector('.swiper-wrapper');
+            
+            if (verticalWrapper) {
+              // Create footer slide for this swiper
+              const footerSlide = document.createElement('div');
+              footerSlide.className = 'swiper-slide';
+              
+              // Clone footer for each swiper (except the first one gets the original)
+              const footerToAdd = index === 0 ? originalFooter : originalFooter.cloneNode(true);
+              footerSlide.appendChild(footerToAdd);
+              
+              // Append to this vertical swiper
+              verticalWrapper.appendChild(footerSlide);
+              
+              if (window.verticalSwipers && window.verticalSwipers[index]) {
+                window.verticalSwipers[index].update();
+              }
+            }
+          });
+        }
+      }, 200); // Increased delay to ensure all swipers are ready
     });
   </script>
 {% endif %}

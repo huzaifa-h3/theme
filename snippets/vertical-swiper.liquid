@@ -25,16 +25,30 @@
   </div>
 </div>
 
-<script>
+<script defer="defers">
   document.addEventListener('DOMContentLoaded', () => {
-    // Vertical Swiper – triggered when a new BLOCK is added inside the fullpage-slider.liquid section
-    let verticalSwiper = new Swiper('.vertical-swiper', {
-      direction: 'vertical',
-      mousewheel: true,
-      keyboard: {
-        enabled: true,
-      },
-      grabCursor: true,
+    if (!window.verticalSwipers) {
+      window.verticalSwipers = [];
+    }
+    
+    const verticalSwiperElements = document.querySelectorAll('.vertical-swiper');
+    
+    verticalSwiperElements.forEach((element, index) => {
+      const swiperInstance = new Swiper(element, {
+        direction: 'vertical',
+        mousewheel: true,
+        keyboard: {
+          enabled: true,
+        },
+        grabCursor: true,
+      });
+      
+      // Store each instance in the array
+      window.verticalSwipers[index] = swiperInstance;
     });
+    
+    if (window.verticalSwipers.length > 0) {
+      window.verticalSwiper = window.verticalSwipers[0];
+    }
   });
 </script>
