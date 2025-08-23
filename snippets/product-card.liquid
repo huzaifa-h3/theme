@@ -1,0 +1,161 @@
+{% liquid
+  # Reusable product card snippet
+%}
+{{ 'product-card.css' | asset_url | stylesheet_tag }}
+{%- assign discount = product.compare_at_price_max | minus: product.price -%}
+{%- assign discount_percentage = discount | times: 100 | divided_by: product.compare_at_price_max -%}
+{% assign product_availability = product.available %}
+
+<div class="product__card">
+  <a href="{{product.url}}" class="product__link">
+    <div class="product_quick-actions">
+      {% if product_availability %}
+        {% form 'product', product, class: 'add-to-cart-form', data-product-id: product.id %}
+          <input type="hidden" name="id" value="{{product.variants.first.id}}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="quick_add" data-variant-id="{{product.variants.first.id}}">
+            <img src="{{'add-to-cart.png' |  asset_url}}" alt="add to cart" height="24" width="24">
+          </button>
+        {% endform %}
+      {%- else -%}
+        <button type="submit" class="quick_add" disabled aria-disabled="true">
+          <img src="{{'icon-sold-out.png' |  asset_url}}" alt="add to cart" height="24" width="24">
+        </button>
+      {% endif %}
+    </div>
+    <div class="product-image-container">
+      {%- if product.images.size > 1 -%}
+        <div class="product-swiper-{{product.id}} swiper">
+          <div class="swiper-wrapper">
+            {% for image in product.images %}
+              <div class="swiper-slide product_images">
+                {{
+                  image
+                  | image_url: width: 300, height: 300
+                  | image_tag: loading: 'lazy', class: 'product_image', alt: product.title
+                }}
+              </div>
+              {% if product.compare_at_price_max > product.price %}
+                <div class="product_on-sale">-{{ discount_percentage }}%</div>
+              {% endif %}
+              {% if product_availability == false %}
+                <div class="product_soldout">SOLD</div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        {%- if product.featured_image -%}
+          {{
+            product.featured_image
+            | image_url: width: 300, height: 300
+            | image_tag: loading: 'lazy', class: 'product_image', alt: product.title
+          }}
+        {% else %}
+          {{ 'no-image' | placeholder_svg_tag: 'product_image' }}
+        {% endif %}
+      {%- endif -%}
+    </div>
+
+    <!-- product info -->
+    <div class="product__info">
+      <h5 class="product_title">{{ product.title | truncate: 28 }}</h5>
+      {% if product.compare_at_price_max > product.price %}
+        <div class="product_prices">
+          <span class="compare_at_price">{{ product.compare_at_price_max | money_with_currency }}</span>
+          <p>{{ product.price | money_with_currency }}</p>
+        </div>
+      {%- else -%}
+        <p>{{ product.price | money_with_currency }}</p>
+      {% endif %}
+    </div>
+  </a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Initialize swiper for this specific product
+      const swiperElement = document.querySelector('.product-swiper-{{product.id}}');
+
+      if (swiperElement) {
+        new Swiper(swiperElement, {
+          slidesPerView: 1,
+          spaceBetween: 0,
+          loop: true,
+          speed: 400,
+          on: {
+            init: function () {
+              // Swiper initialized successfully
+            },
+          },
+        });
+      }
+
+      //show add to cart button on product hover
+      const productCard = document.querySelectorAll('.product__card');
+
+      productCard.forEach(product=>{
+        product.addEventListener('mouseover', ()=>{
+        product.querySelector('.product_quick-actions').style.opacity = 1;
+        })
+        product.addEventListener('mouseout', ()=>{
+        product.querySelector('.product_quick-actions').style.opacity = 0;
+        })
+      })
+
+      //add to cart
+      const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+
+      addToCartForms.forEach((form) =>
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const button = form.querySelector('.quick_add');
+          button.disabled = true;
+          button.innerHTML = ' <img src="{{'added-to-cart.png' |  asset_url}}" alt="add to cart" height="24" width="24">';
+
+          try {
+            const formData = new FormData(form);
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              body: formData,
+            });
+            if (!response.ok) {
+              throw new Error('Failed to add cart');
+            }
+
+            await updateCartUI();
+          } catch (error) {
+            showErrorMessage(error.message);
+          } finally {
+            setTimeout(()=>{
+              button.disabled = false;
+              button.innerHTML = ' <img src="{{'add-to-cart.png' |  asset_url}}" alt="add to cart" height="24" width="24">';
+            }, 350)
+          }
+        })
+      );
+
+  async function updateCartUI() {
+    try {
+      const response = await fetch('/cart.js');
+      const cart = await response.json();
+
+      document.querySelectorAll('.cart_item-count').forEach(el => {
+        if (cart.item_count > 0) {
+          if(cart.item_count > 99){
+          el.textContent = "99+";
+          el.style.display = 'inline-block';
+    }else{
+      el.textContent = cart.item_count;
+          el.style.display = 'inline-block';
+    }
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
+  }
+    });
+</script>

@@ -1,0 +1,111 @@
+{{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
+
+<div class="cart_drawer" aria-hidden="true" role="dialog" aria-labelledby="cart-drawer-title">
+  <div class="cart-drawer_wrapper">
+    <div class="cart-drawer_header">
+      <h1 class="cart-drawer-title" id="cart-drawer-title">Cart</h1>
+      <button class="cart-drawer-close">
+        <img src="{{'icon-cross.svg' | asset_url}}" alt="Remove item from cart" width="18" height="18">
+      </button>
+    </div>
+    <div class="cart-drawer_items" id="cart-drawer-items">
+      {% if cart.item_count > 0 %}
+        {% for item in cart.items %}
+          <div class="cart-drawer_item" data-variant-id="{{item.variant.id}}">
+            <img
+              src="{{item.image | image_url: width: 125, height: 125}}"
+              width="80"
+              height="80"
+              alt="{{item.title | escape}}"
+              class="cart-drawer_item-image"
+            >
+            <div class="cart-drawer_tile-variant">
+              <h3>{{ item.product.title | truncate: 35 }}</h3>
+              <p>{{ item.variant.title }}</p>
+            </div>
+            <div class="cart-drawer_price-trash">
+              <button
+                type="button"
+                class="cart-drawer__remove"
+                data-variant-id="{{ item.variant_id }}"
+                aria-label="Remove {{ item.title | escape }} from cart"
+              >
+                <img src="{{'icon-trash.svg' | asset_url}}" alt="Remove item from cart" width="18" height="18">
+              </button>
+              <p>{{ item.price | money_with_currency }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty-cart">
+          <h1>Your cart is empty.</h1>
+        </div>
+      {% endif %}
+    </div>
+    {% if cart.item_count > 0 %}
+      <div class="cart-drawer__subtotal">
+        <div class="subtotal-row">
+          <p>Subtotal</p>
+          <p>{{ cart.total_price | money_with_currency }}</p>
+        </div>
+        <div class="call_to-actions">
+          <a href="/checkout" class="primary-btn">Checkout</a>
+          <a href="{{routes.cart_url}}" class="secondary-btn">View Cart</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const cartDrawer = document.querySelector(".cart_drawer");
+
+  // Listen for remove clicks
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".cart-drawer__remove")) {
+      e.preventDefault();
+      const btn = e.target.closest(".cart-drawer__remove");
+      const variantId = btn.getAttribute("data-variant-id");
+
+      fetch("/cart/change.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          id: variantId,
+          quantity: 0
+        })
+      })
+        .then((res) => res.json())
+        .then((cart) => {
+          btn.closest(".cart-drawer_item").remove();
+
+          // update subtotal
+          updateCartSubtotal(cart);
+        })
+        .catch((err) => console.error("Remove failed", err));
+    }
+  });
+
+  function updateCartSubtotal(cart) {
+    const subtotalEl = document.querySelector(".cart-drawer__subtotal p:last-child");
+    if (subtotalEl) {
+      subtotalEl.textContent = (cart.total_price / 100).toLocaleString("en-US", {
+        style: "currency",
+        currency: cart.currency || money_with_currency
+      });
+    }
+
+    // if cart empty, show empty message
+    if (cart.item_count === 0) {
+      document.querySelector("#cart-drawer-items").innerHTML =
+        `<div class="empty-cart"><h1>Your cart is empty.</h1></div>`;
+      document.querySelector(".cart-drawer__subtotal")?.remove();
+    }
+  }
+});
+
+</script>
+<script src="{{'cart-drawer.js' | asset_url }}" defer></script>

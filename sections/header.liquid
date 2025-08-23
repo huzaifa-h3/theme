@@ -1,15 +1,17 @@
 {{ 'header.css' | asset_url | stylesheet_tag }}
-<div class="theme_header">
+<div class="theme_header {% if request.page_type == 'index' %} fixed-header {% endif %} ">
   <div class="header_left">
     <div class="header_menu">
       <button
         type="button"
         class="menu_btn"
-        id="menu_btn">
+        id="menu_btn"
+      >
         <img
           src="{{ 'icon-menu.svg' | asset_url }}"
           width="30"
-          height="40">
+          height="40"
+        >
       </button>
       {% render 'menu-sidebar' %}
     </div>
@@ -19,7 +21,9 @@
           <img
             src="{{ settings.logo | image_url }}"
             height=""
-            width="{{ settings.logo_width }}"> {% else %}
+            width="{{ settings.logo_width }}"
+          >
+        {% else %}
           <h1>{{ shop.name }}</h1>
         {% endif %}
       </a>
@@ -31,47 +35,59 @@
         <img
           src="{{ 'icon-search.svg' | asset_url }}"
           width="22"
-          height="32">
+          height="32"
+        >
       </button>
       <a href="{{ routes.account_login_url }}">
         <img
           src="{{ 'icon-user.svg' | asset_url }}"
           width="22"
-          height="32">
+          height="32"
+        >
       </a>
-      <a href="{{ routes.cart_url }}">
+      <button type="button" class="cart-header_btn">
+        {% if cart.item_count > 0 %}
+          {% if cart.item_count > 99 %}
+            <span class="cart_item-count">99+</span>
+          {% else %}
+            <span class="cart_item-count">{{cart.item_count}}</span>
+          {% endif %}
+        {% endif %}
         <img
           src="{{ 'icon-bag.svg' | asset_url }}"
           width="22"
-          height="32">
-      </a>
+          height="32"
+        >
+      </button>
     </div>
   </div>
+  {% render 'cart-drawer' %}
 </div>
+
 <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
 {% schema %}
-  {
-    "name": "Header",
-    "tag": "header",
-    "settings": [
-      {
-        "type": "header",
-        "content": "Menu"
-      },
-      {
-        "type": "link_list",
-        "id": "menu",
-        "default": "main-menu",
-        "label": "Select avigation Menu"
+{
+  "name": "Header",
+  "tag": "header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Select avigation Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "header",
+      "settings": {
+        "menu": "main-menu"
       }
-    ],
-    "presets": [
-      {
-        "name": "header",
-        "settings": {
-          "menu": "main-menu"
-        }
-      }
-    ]
-  }
+    }
+  ]
+}
 {% endschema %}

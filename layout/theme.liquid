@@ -14,14 +14,16 @@
 
   <body>
     {% sections 'header-group' %}
-    {% section 'main-search' %}
-
+    
     <main>
-    {{ content_for_layout }}
-    </main>
+      {{ content_for_layout }}
+      {% render 'search-bar' %}
+      </main>
+      
+      {% sections 'footer-group' %}
 
-    {% sections 'footer-group' %}
-
+      <script src="{{'predictive-search.js' | asset_url}}" defer="defer"></script>
+<script src="{{'search-overlay.js' | asset_url}}" defer="defer"></script>
     <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
   </body>
 </html>

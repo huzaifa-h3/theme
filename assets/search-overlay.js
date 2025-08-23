@@ -3,14 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBar = document.querySelector(".search_bar-overlay")
   const searchInput = document.querySelector(".search-input")
   const searchSubmitBtn = document.querySelector(".search-submit")
+  const searchResults = document.querySelector(".predictive-search__results");
 
   const openSearchBar = () => {
-    searchBar.style.transform = "translateY(0%)"
-    setTimeout(() => searchInput.focus(), 100)
+    searchBar.style.transform = "translateY(0%)";
+    setTimeout(() => searchInput.focus(), 100);
+    document.querySelector('.predictive-search__results').style.display = "block";
   }
 
   const closeSearchBar = () => {
-    searchBar.style.transform = "translateY(-100%)"
+    searchBar.style.transform = "translateY(-100%)";
+    document.querySelector('.predictive-search__results').style.display = "none";
   }
 
   searchButton.addEventListener("click", () => {

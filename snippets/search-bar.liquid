@@ -1,0 +1,105 @@
+<style>
+  .search_bar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: 0.5s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999;
+  }
+  
+  predictive-search {
+    width: 100%;
+    position: relative;
+  }
+  
+  .search_bar-overlay form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .search-submit {
+    position: absolute;
+    right: 2.5%;
+    top: 26.5%
+  }
+  
+  .search_bar-overlay form input {
+    width: 100%;
+    padding: 11px 20px;
+    background: transparent;
+    color: black;
+    font-size: 20px;
+    border: 1px solid black;
+  }
+  
+  input::placeholder {
+    color: #111111;
+  }
+  
+  #predictive-search {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
+    z-index: 1001;
+  }
+  .search__page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50%;
+    z-index: 99;
+  }
+  @media (max-width: 768px){
+    .search_bar-overlay form {
+    width: 100%;
+    max-width: 350px;
+  }
+  .search__page{
+  width: 100%;
+}
+  }
+  </style>
+<div class="search_bar-overlay">
+<predictive-search>
+  <form action="{{ routes.search_url }}" method="get" role="search">
+    <input
+      id="Search"
+      type="search"
+      name="q"
+      value="{{search.terms |  escape}}"
+      role="combobox"
+      aria-expanded="false"
+      aria-owns="predictive-search-results"
+      aria-controls="predictive-search-results"
+      aria-haspopup="listbox"
+      aria-autocomplete="list"
+      class="search-input"
+      placeholder="Search for anything..."
+     />
+     <button class="search-submit">
+      <img src="{{ 'icon-search.svg' | asset_url }}" alt="Search icon" height="22" width="22">
+    </button>
+    <input name="options[prefix]" type="hidden" value="last" />
+
+    <div id="predictive-search" tabindex="-1"></div>
+  </form>
+</predictive-search>     
+</div>

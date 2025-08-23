@@ -12,6 +12,7 @@ body {
   background-color: var();
   height: 100vh;
   width: 100%;
+  overflow-x: hidden;
 }
 button {
   background-color: transparent;
@@ -20,4 +21,7 @@ button {
 a {
   color: inherit;
   cursor: pointer;
+}
+main{
+  overflow: hidden;
 }

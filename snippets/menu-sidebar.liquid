@@ -9,6 +9,7 @@
     transition: 0.5s ease-in-out;
     background-color: white;
     overflow: hidden;
+    z-index: 110;
   }
   .menu_sidebar_wrapper {
     height: 100%;
@@ -27,6 +28,11 @@
   }
   .navigation_menu_item:hover {
     transform: translateX(8px);
+  }
+  @media (max-width: 768px) {
+    .menu_sidebar{
+      width: 100%;
+    }
   }
 </style>
 <div class="menu_sidebar">
