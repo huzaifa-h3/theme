@@ -1,0 +1,145 @@
+{{ 'main-product.css' | asset_url | stylesheet_tag }}
+
+{% assign discount = product.compare_at_price_max | minus: product.price %}
+{%- assign discount_percentage = discount | times: 100 | divided_by: product.compare_at_price_max -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_avalaiblity = product.available -%}
+<div class="main-product">
+  <div class="product-wrapper">
+    <div class="product-media">
+      {% for media in product.media %}
+        {%- render 'product-media', media: media -%}
+      {% endfor %}
+    </div>
+    <div class="product-info">
+      {% comment %} product discount and qty left logic {% endcomment %}
+      <div class="qty-and-discount">
+        {% if discount_percentage %}
+          <div class="discount">
+            <span>{{ discount_percentage }}% OFF</span>
+          </div>
+        {% endif %}
+        {% if current_variant.inventory_quantity <= 5 and current_variant.inventory_quantity > 0 %}
+          <div class="qty-left-badge">
+            <span>Last Few</span>
+          </div>
+        {%- elsif current_variant.inventory_quantity <= 20 and current_variant.inventory_quantity > 5 -%}
+          <div class="qty-left-badge">
+            <span>Hurry Up! Only {{ current_variant.inventory_quantity }} Left</span>
+          </div>
+        {%- elsif current_variant.inventory_quantity < 1 -%}
+          <div class="qty-left-badge">
+            <span>Out of stock</span>
+          </div>
+        {% endif %}
+      </div>
+      {% comment %} Product Title {% endcomment %}
+      <div class="product-title">
+        <h3>{{ product.title }}</h3>
+      </div>
+
+      {% comment %} Product Price {% endcomment %}
+      <div class="product-price">
+        {% if product.compare_at_price_max > product.price %}
+          <span>{{ product.compare_at_price_max | money_with_currency }}</span>
+          <p class="discounted-price">{{ product.price | money_with_currency }}</p>
+        {% else %}
+          <p>{{ product.price | money_with_currency }}</p>
+        {% endif %}
+      </div>
+
+      {% comment %} Product Description {% endcomment %}
+      <div class="product-description">
+        <p>{{ product.content }}</p>
+      </div>
+
+      {% comment %} Product variants {% endcomment %}
+      {%- unless product.has_only_default_variant -%}
+        <div class="variant-selector">
+          {%- for option in product.options_with_values -%}
+            {%- assign option_index = forloop.index0 -%}
+            {%- assign is_color = false -%}
+            {%- if option.name contains 'color' or option.name contains 'colour' -%}
+              {%- assign is_color = true -%}
+            {%- endif -%}
+            <div class="option-group {{ option.name | handleize }}">
+              <legend class="option-label">
+                {{ option.name | escape -}}
+                <span class="visually-hidden"></span>
+              </legend>
+              <div class="option-values" role="radiogroup" aria-labelledby="{{ option.name | handleize }}-label">
+                {%- for value in option.values -%}
+                  {%- assign value_handle = value | handleize -%}
+                  {%- assign available = false -%}
+                  {%- for variant in product.variants -%}
+                    {%- if variant.available and variant.options[option_index] == value -%}
+                      {%- assign available = true -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- assign color_image = value_handle | append: '.png' | asset_url | default: '' -%}
+                  <input
+                    type="radio"
+                    id="option-{{ option_index }}-{{ value_handle }}"
+                    name="options[{{ option.name | escape }}]"
+                    value="{{ value | escape }}"
+                    {% if available == false %}
+                      disabled
+                    {% endif %}
+                    {% if product.selected_or_first_available_variant.options[option_index] == value %}
+                      checked
+                    {% endif %}
+                    class="option-input visually-hidden"
+                  >
+                  <label
+                    for="option-{{ option_index }}-{{ value_handle }}"
+                    class="option-button {% if is_color %}color-button{% else %}text-button{% endif %} {% if available == false %}disabled{% endif %}"
+                  >
+                    {%- if is_color and color_image != blank -%}
+                      <img src="{{ color_image }}" alt="{{ value | escape }} swatch" width="50" height="50">
+                    {%- elsif is_color -%}
+                      <span
+                        style="background-color: {{ value | downcase }}; width: 50px; height: 50px; display: block;"
+                      ></span>
+                    {%- else -%}
+                      {{ value }}
+                    {%- endif -%}
+                    <span class="visually-hidden">{{ value }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endunless -%}
+
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="variant-id">
+
+      {% comment %} Quantity selector, Add to cart & Buy now {% endcomment %}
+      <div class="quick-actions">
+        <div class="qty-add-to-cart">
+          <div class="quantity-selector">
+            <button type="button" class="quantity-btn" onclick="decreaseQuantity(this)">−</button>
+            <input type="number" class="quantity-input" name="quantity" value="1" min="1" max="99">
+            <button type="button" class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+          </div>
+
+          <button class="btn-primary">Add to Cart</button>
+        </div>
+        <button
+          {% unless product_avalaiblity %}
+            disabled
+            class="disabled btn-secondary"
+          {% endunless %}
+          class="btn-secondary"
+        >
+          {% if product_avalaiblity %}
+            Buy Now
+          {% else %}
+            Out of stock
+          {% endif %}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

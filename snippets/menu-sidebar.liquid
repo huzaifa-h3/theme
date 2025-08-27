@@ -15,7 +15,7 @@
     height: 100%;
     width: 100%;
     position: relative;
-    padding: 15px 25px;
+    padding: 25px 35px;
   }
   #close_menu {
     position: absolute;
@@ -34,7 +34,26 @@
       width: 100%;
     }
   }
+  .menu_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px); /* optional blur */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 100; /* below menu_sidebar (110) */
+}
+
+.menu_overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
 </style>
+<div class="menu_overlay"></div>
 <div class="menu_sidebar">
   <div class="menu_sidebar_wrapper">
     <button type="button" id="close_menu">
@@ -43,7 +62,7 @@
     <div class="header_logo">
       <a href="{{ routes.root_url }}">
         {% if settings.logo != blank %}
-          <img src="{{ settings.logo | image_url }}" height="" width="{{ settings.logo_width }}">
+          <img src="{{ settings.logo | image_url }}" width="{{ settings.logo_width }}" height="" width="">
         {% else %}
           <h1>{{ shop.name }}</h1>
         {% endif %}
@@ -58,3 +77,4 @@
     </nav>
   </div>
 </div>
+

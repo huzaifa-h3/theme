@@ -17,6 +17,9 @@
 .ns {
   height: 37%;
 }
+.newsletter_title h3{
+  font-size: var(--font-size-xl);
+}
 .footer_newsletter {
   width: 100%;
   margin: 0 auto;
@@ -33,6 +36,9 @@
   border-bottom: 1px solid #000000;
   padding: 10px;
   width: 100%;
+}
+.newsletter-email input::placeholder{
+  font-size: var(--font-size-sm);
 }
 .newsletter-email button {
   position: absolute;
@@ -70,6 +76,7 @@
 .footer_menu_item {
   text-decoration: none;
   margin: 20px 0;
+  font-size: var(--font-size-sm);
 }
 
 .copyright_text {
@@ -81,6 +88,7 @@
 
 .copyright_text p {
   text-align: center;
+  font-size: var(--font-size-sm);
 }
 
 @media (max-width: 768px) {

@@ -59,7 +59,7 @@
             <a href="{{ item.url }}" class="search__item">
               {% if item.object_type == 'product' %}
                 {{ item.featured_image | image_url: width: 300 | image_tag: class: 'search-product_image', alt: item.title}}
-                <p>{{ item.title }}</p>
+                <p>{{ item.title |  truncate: 35 }}</p>
                 <p>{{ item.price | money }}</p>
 
               {% elsif item.object_type == 'collection' %}

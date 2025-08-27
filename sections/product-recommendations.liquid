@@ -1,0 +1,101 @@
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "number",
+      "id": "product_limit",
+      "label": "Number of Products to Show",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Recommendations",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
+
+<div
+  class="product-recommendations"
+  data-product-id="{{ product.id }}"
+  data-limit="{{ section.settings.product_limit }}"
+>
+  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    <h6>{{ section.settings.section_title | escape }}</h6>
+    <div class="collection-products__grid">
+      {%- for product in recommendations.products -%}
+        <div class="product-{{product.id}}">
+          {% render 'product-card', product: product %}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <script>console.warn(`No recommendations available for product: ${{product.title}} `)
+    </script>
+  {%- endif -%}
+</div>
+
+{% javascript %}
+  function loadProductRecommendations() {
+    const section = document.querySelector('.product-recommendations');
+    if (!section) return;
+    const productId = section.dataset.productId;
+    const limit = section.dataset.limit;
+    const url = `/recommendations/products?section_id=product-recommendations&limit=${limit}&product_id=${productId}`;
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) throw new Error('Failed to load recommendations');
+        return response.text();
+      })
+      .then((data) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, 'text/html');
+        const newSection = doc.querySelector('.product-recommendations');
+        if (newSection) {
+          section.parentElement.replaceChild(newSection, section);
+        }
+      })
+      .catch((error) => console.error('Error loading recommendations:', error));
+  }
+
+  document.addEventListener('shopify:section:load', (event) => {
+    if (event.detail.sectionId === 'product-recommendations') {
+      loadProductRecommendations();
+    }
+  });
+
+  loadProductRecommendations();
+{% endjavascript %}
+
+<style>
+  .product-recommendations {
+    max-width: var(--narrow-page-width);
+    margin: 60px auto;
+  }
+  .product-recommendations h2 {
+    text-align: center;
+  }
+  .collection-products__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    height: 100%;
+    width: 100%;
+    padding-top: 20px;
+  }
+  @media (max-width: 768px) {
+    .collection-products__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

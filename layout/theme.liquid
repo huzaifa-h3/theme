@@ -1,29 +1,32 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
-  <head>
-    {% render 'css-variables' %}
 
-    {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
-    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+<head>
+  {% render 'css-variables' %}
 
-    {% # Social, title, etc. %}
-    {% render 'meta-tags' %}
+  {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+  {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
-    {{ content_for_header }}
-  </head>
+  {% # Social, title, etc. %}
+  {% render 'meta-tags' %}
 
-  <body>
-    {% sections 'header-group' %}
-    
-    <main>
-      {{ content_for_layout }}
-      {% render 'search-bar' %}
-      </main>
-      
-      {% sections 'footer-group' %}
+  {{ content_for_header }}
+</head>
 
-      <script src="{{'predictive-search.js' | asset_url}}" defer="defer"></script>
-<script src="{{'search-overlay.js' | asset_url}}" defer="defer"></script>
-    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
-  </body>
+<body>
+  {% sections 'header-group' %}
+
+  <main>
+    {{ content_for_layout }}
+    {% render 'search-bar' %}
+  </main>
+
+  {% sections 'footer-group' %}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer></script>
+  <script src="{{'predictive-search.js' | asset_url}}" defer="defer"></script>
+  <script src="{{'search-overlay.js' | asset_url}}" defer="defer"></script>
+  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+
 </html>
