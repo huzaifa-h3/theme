@@ -8,6 +8,7 @@ header .fixed-header {
   z-index: 50;
   width: 100%;
   z-index: 99;
+  width: var(--narrow-page-width);
 }
 .theme_header {
   display: flex;

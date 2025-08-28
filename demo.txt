@@ -1,246 +1,68 @@
-{{ 'main-product.css' | asset_url | stylesheet_tag }}
+// Update Quantity
+function updateQuantity(itemKey, change = 0) {
+  const input = document.querySelector(`.quantity-input[data-item-key="${itemKey}"]`);
 
-{%- assign discount = product.compare_at_price | minus: product.price -%}
-{%- assign discount_percentage = discount | times: 100 | divided_by: product.compare_at_price_max -%}
-{%- assign current_variant = product.selected_or_first_available_variant -%}
+  let qty = parseInt(input.value) + change;
 
-<!-- Debug: Current variant: {{ current_variant.id }} - Available: {{ current_variant.available }} -->
+  if (qty < 1) qty = 1;
+  if (qty > 99) qty = 99;
+  input.value = qty;
 
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Product",
-  "name": {{ product.title | json }},
-  "image": {{ product.featured_image | img_url: '600x600' | json }},
-  "description": {{ product.description | strip_html | json }},
-  "sku": {{ current_variant.sku | json }},
-  "brand": {
-    "@type": "Brand",
-    "name": {{ product.vendor | json }}
-  },
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": {{ shop.currency | json }},
-    "price": {{ current_variant.price | divided_by: 100.0 | json }},
-    "itemCondition": "http://schema.org/NewCondition",
-    "availability": {{ current_variant.available | json | replace: 'true', '"http://schema.org/InStock"' | replace: 'false', '"http://schema.org/OutOfStock"' }}
+  // AJAX call to Shopify cart
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: itemKey, quantity: qty })
+  })
+  .then(res => res.json())
+  .then(updateCartUI)
+  .catch(err => console.error(err));
+}
+
+// Remove Item
+function removeItem(itemKey) {
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: itemKey, quantity: 0 })
+  })
+  .then(res => res.json())
+  .then(updateCartUI)
+  .catch(err => console.error(err));
+}
+
+// Update Cart UI
+function updateCartUI(cart) {
+  cart.items.forEach(item => {
+    const totalEl = document.querySelector(`.items-total[data-item-key='${item.key}'] p`);
+    const inputEl = document.querySelector(`.quantity-input[data-item-key='${item.key}']`);
+    if(totalEl) totalEl.textContent = Shopify.formatMoney(item.line_price, "{{ shop.money_format }}");
+    if(inputEl) inputEl.value = item.quantity;
+  });
+
+  // Update subtotal
+  const subtotalEl = document.querySelector('.subtotal span');
+  if(subtotalEl) subtotalEl.textContent = Shopify.formatMoney(cart.items_subtotal_price, "{{ shop.money_format }}");
+
+  // Remove deleted items from DOM
+  cart.items.forEach(item => {
+    const row = document.querySelector(`.quantity-input[data-item-key='${item.key}']`)?.closest('tr');
+    if(row) row.style.display = '';
+  });
+
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    const row = input.closest('tr');
+    const itemKey = input.dataset.itemKey;
+    const exists = cart.items.some(i => i.key === itemKey);
+    if(!exists && row) row.remove();
+  });
+
+  // Show empty cart
+  if(cart.item_count === 0) {
+    document.querySelector('.cart-wrapper').style.display = 'none';
+    document.querySelector('.empty-cart').style.display = 'flex';
+  } else {
+    document.querySelector('.cart-wrapper').style.display = 'block';
+    document.querySelector('.empty-cart').style.display = 'none';
   }
 }
-</script>
-
-<div class="product-template" role="main">
-  <div class="product-wrapper">
-    <div class="product-media swiper" role="region" aria-label="Product media gallery">
-      <div class="swiper-wrapper">
-        {% for media in product.media %}
-          {% render 'product-media', media: media, class: 'swiper-slide' %}
-        {% endfor %}
-      </div>
-    </div>
-    <div class="product-info">
-      <div class="product-vendor">
-        <span>{{ product.vendor | escape }}</span>
-      </div>
-      <div class="product-title">
-        <h1>{{ product.title | escape }}</h1>
-      </div>
-      <div class="product-price" id="product-price">
-        {% if product.compare_at_price_max > product.price %}
-          <span class="original-price">{{ product.compare_at_price_max | money_without_trailing_zeros }}</span>
-          <span class="current-price">{{ product.price | money_with_currency }}</span>
-          <span class="discount">(-{{ discount_percentage }}%)</span>
-        {% else %}
-          <span class="current-price">{{ product.price | money_with_currency }}</span>
-        {% endif %}
-      </div>
-      <div class="product-inventory" id="product-inventory">
-        {% if current_variant.available %}
-          {% if current_variant.inventory_quantity <= 5 and current_variant.inventory_quantity > 0 %}
-            <span class="low-stock">Only {{ current_variant.inventory_quantity }} left in stock!</span>
-          {% else %}
-            <span class="in-stock">In Stock</span>
-          {% endif %}
-        {% else %}
-          <span class="out-of-stock">Out of Stock</span>
-        {% endif %}
-      </div>
-      <div class="product-description">
-        <h3 style="padding-bottom: 5px;">Description</h3>
-        <p>{{ product.description | strip_html | escape }}</p>
-      </div>
-      <form action="{{ routes.cart_add_url }}" method="post" class="add-to-cart-form" data-product-id="{{ product.id | escape }}">
-        <input type="hidden" name="id" value="{{ current_variant.id | escape }}" class="selected-variant-id">
-        <div class="quantity-selector">
-          <label for="quantity">Quantity:</label>
-          <input type="number" id="quantity" name="quantity" value="1" min="1" aria-label="Select quantity">
-        </div>
-        {% for option in product.options_with_values %}
-          <fieldset class="variant-option" aria-labelledby="option-{{ option.name | handleize }}-label">
-            <legend id="option-{{ option.name | handleize }}-label">{{ option.name | escape }}</legend>
-            <div class="variant-value">
-              {% for value in option.values %}
-                {% assign swatch_color = product.metafields.custom.swatch_color[value] | default: value | downcase %}
-                <label class="variant-box {% if option.name == 'Color' %}color-swatch{% endif %}" {% if option.name == 'Color' %} style="--swatch-color: {{ swatch_color }};" {% endif %}>
-                  <input
-                    type="radio"
-                    name="option-{{ option.name | handleize }}"
-                    value="{{ value | escape }}"
-                    {% if option.selected_value == value %}checked{% endif %}
-                    aria-label="{{ option.name }}: {{ value }}"
-                  >
-                  <span>{{ value | escape }}</span>
-                </label>
-              {% endfor %}
-            </div>
-          </fieldset>
-        {% endfor %}
-        <div class="quick_actions">
-          <button
-            type="submit"
-            class="quick_add add-to-cart-btn"
-            data-loading-icon="{{ 'loading.png' | asset_url }}"
-            data-added-icon="{{ 'added-to-cart.png' | asset_url }}"
-            data-default-icon="{{ 'add-to-cart.png' | asset_url }}"
-            data-success-timeout="1000"
-            aria-label="Add to cart"
-            {% unless current_variant.available %}disabled aria-disabled="true"{% endunless %}
-          >
-            <img src="{{ 'add-to-cart.png' | asset_url }}" alt="Add to cart" height="24" width="24">
-          </button>
-          <a href="{{ routes.checkout_url }}" class="buy_now" aria-label="Buy now">Buy Now</a>
-        </div>
-      </form>
-      <div class="tags">
-        {% for tag in product.tags %}
-          <span class="product_tags">{{ tag | escape }}</span>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  <div class="product-recommendations" data-product-id="{{ product.id | escape }}" data-url="{{ routes.root }}recommendations/products?product_id={{ product.id | escape }}&limit=4&section_id=product-recommendations&intent=related"></div>
-</div>
-
-<script>
-  // Initialize Swiper
-  const swiper = new Swiper('.swiper', {
-    direction: 'horizontal',
-    slidesPerView: 1,
-    draggable: true,
-    grabCursor: true,
-    loop: true,
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true
-    },
-    a11y: {
-      enabled: true,
-      prevSlideMessage: 'Previous slide',
-      nextSlideMessage: 'Next slide'
-    }
-  });
-
-  // Variant selection logic
-  const form = document.querySelector('.add-to-cart-form');
-  const priceContainer = document.querySelector('#product-price');
-  const inventoryContainer = document.querySelector('#product-inventory');
-  const variantInput = document.querySelector('.selected-variant-id');
-  const variants = {{ product.variants | json }};
-  const variantMap = new Map(variants.map(v => [v.options.join('|'), v]));
-
-  function updateVariant() {
-    const selectedOptions = [];
-    document.querySelectorAll('fieldset.variant-option').forEach(fieldset => {
-      const selected = fieldset.querySelector('input:checked');
-      if (selected) {
-        selectedOptions.push(selected.value);
-      }
-    });
-
-    const variantKey = selectedOptions.join('|');
-    const matchedVariant = variantMap.get(variantKey);
-
-    if (matchedVariant) {
-      variantInput.value = matchedVariant.id;
-      form.querySelector('.quick_add').disabled = !matchedVariant.available;
-
-      // Update price
-      priceContainer.innerHTML = matchedVariant.compare_at_price > matchedVariant.price
-        ? `<span class="original-price">${Shopify.formatMoney(matchedVariant.compare_at_price)}</span>
-           <span class="current-price">${Shopify.formatMoney(matchedVariant.price, {{ shop.money_with_currency_format | json }})}</span>
-           <span class="discount">(-${Math.round((matchedVariant.compare_at_price - matchedVariant.price) * 100 / matchedVariant.compare_at_price)}%)</span>`
-        : `<span class="current-price">${Shopify.formatMoney(matchedVariant.price, {{ shop.money_with_currency_format | json }})}</span>`;
-
-      // Update inventory status
-      inventoryContainer.innerHTML = matchedVariant.available
-        ? matchedVariant.inventory_quantity <= 5 && matchedVariant.inventory_quantity > 0
-          ? `<span class="low-stock">Only ${matchedVariant.inventory_quantity} left in stock!</span>`
-          : `<span class="in-stock">In Stock</span>`
-        : `<span class="out-of-stock">Out of Stock</span>`;
-    } else {
-      form.querySelector('.quick_add').disabled = true;
-      priceContainer.innerHTML = '<span class="error">Select all options</span>';
-      inventoryContainer.innerHTML = '';
-    }
-
-    // Update active class for variant boxes
-    document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
-      const siblings = radio.closest('.variant-value').querySelectorAll('.variant-box');
-      siblings.forEach(sib => sib.classList.remove('active'));
-      radio.closest('.variant-box').classList.add('active');
-    });
-  }
-
-  // Fetch product recommendations with IntersectionObserver
-  const handleIntersection = (entries, observer) => {
-    if (!entries[0].isIntersecting) return;
-
-    observer.unobserve(productRecommendationsSection);
-
-    const url = productRecommendationsSection.dataset.url;
-    console.debug('Fetching recommendations:', url);
-
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          console.error('Recommendation fetch failed:', response.status, response.statusText);
-          throw new Error('Failed to load recommendations');
-        }
-        return response.text();
-      })
-      .then(text => {
-        const html = document.createElement('div');
-        html.innerHTML = text;
-        const recommendations = html.querySelector('.product-recommendations');
-
-        if (recommendations && recommendations.innerHTML.trim().length) {
-          productRecommendationsSection.innerHTML = recommendations.innerHTML;
-          console.debug('Recommendations loaded successfully');
-          // Re-initialize add-to-cart forms
-          window.AddToCart.init();
-        } else {
-          productRecommendationsSection.innerHTML = '<p>No recommendations available.</p>';
-          console.debug('No recommendations found');
-        }
-      })
-      .catch(error => {
-        console.error('Error loading recommendations:', error);
-        productRecommendationsSection.innerHTML = '<p>Error loading recommendations.</p>';
-      });
-  };
-
-  const productRecommendationsSection = document.querySelector('.product-recommendations');
-  if (productRecommendationsSection) {
-    const observer = new IntersectionObserver(handleIntersection, { rootMargin: '0px 0px 200px 0px' });
-    observer.observe(productRecommendationsSection);
-  } else {
-    console.warn('Product recommendations container not found');
-  }
-
-  // Attach variant change listeners
-  document.querySelectorAll('input[type="radio"]').forEach(radio => {
-    radio.addEventListener('change', updateVariant);
-  });
-
-  // Initial update
-  updateVariant();
-</script>

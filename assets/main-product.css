@@ -2,8 +2,9 @@
   max-width: var(--narrow-page-width);
   width: 100%;
   margin: 0 auto;
+  padding: 10px 20px;
 }
-.product-title h3{
+.product-title h3 {
   font-size: var(--font-size-md);
 }
 
@@ -15,12 +16,17 @@
 
 .product-media {
   width: 60%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
   position: sticky;
   top: 20px;
   align-self: start;
+}
+.desktop-product_images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.mobile-product_images {
+  display: none;
 }
 .product-info {
   width: 40%;
@@ -100,8 +106,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 5px;
-  border: 2px solid #ccc;
+  padding: 3px 3px;
+  border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
   font-size: var(--font-size-xs);
@@ -116,17 +122,19 @@
 .option-input:checked + .option-button {
   border-color: #000;
   background: #fff;
+  border: 1px solid #000000;
 }
 
-.color-button img, .color-button span {
+.color-button img,
+.color-button span {
   width: 50px;
   height: 50px;
   object-fit: cover;
 }
 
 .text-button {
-    padding: 8px 10px;
-    font-size: var(--font-size-xs);
+  padding: 8px 10px;
+  font-size: var(--font-size-xs);
 }
 
 .disabled {
@@ -146,4 +154,78 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+  .product__image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: 550px;
+  }
+
+  @media (max-width: 768px) {
+    .product__image {
+      max-height: 400px;
+    }
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .modal-image {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .modal-image {
+      max-height: 70vh;
+    }
+
+    .modal-close {
+      top: -20px;
+      right: -20px;
+      font-size: 24px;
+    }
+  }
+@media (max-width: 768px) {
+  .product-wrapper {
+    flex-direction: column;
+  }
+  .mobile-product_images {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .product-info {
+    width: 100%;
+  }
+  .desktop-product_images {
+    display: none;
+  }
 }

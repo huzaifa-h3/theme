@@ -1,0 +1,11 @@
+{% layout 'theme' %}
+
+<div
+  class="page-404"
+  style="display: flex; flex-direction: column; height: 100%; width:100%; justify-content: center; align-items: center; gap: 20px;"
+>
+  <img src="{{'404.svg' |  asset_url}}" height="400" width="400" alt="">
+  <h1>Page Not Found</h1>
+  <p>Oops! The page you're looking for doesn't exist.</p>
+  <a class="btn-primary" style="width: fit-content;" href="{{routes.root_url}}">Go back home</a>
+</div>

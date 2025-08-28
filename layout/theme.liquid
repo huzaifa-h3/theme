@@ -1,32 +1,31 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% render 'css-variables' %}
 
-<head>
-  {% render 'css-variables' %}
+    {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
 
-  {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
-  {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+    {% # Social, title, etc. %}
+    {% render 'meta-tags' %}
 
-  {% # Social, title, etc. %}
-  {% render 'meta-tags' %}
+    {{ content_for_header }}
+  </head>
 
-  {{ content_for_header }}
-</head>
+  <body>
+    {% sections 'header-group' %}
 
-<body>
-  {% sections 'header-group' %}
+    <main>
+      {{ content_for_layout }}
+      {% render 'search-bar' %}
+    </main>
 
-  <main>
-    {{ content_for_layout }}
-    {% render 'search-bar' %}
-  </main>
-
-  {% sections 'footer-group' %}
-  <script src="{{ 'quick-add.js' | asset_url }}" defer></script>
-  <script src="{{'predictive-search.js' | asset_url}}" defer="defer"></script>
-  <script src="{{'search-overlay.js' | asset_url}}" defer="defer"></script>
-  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
-  <script src="{{ 'theme.js' | asset_url }}" defer></script>
-</body>
-
+    {% sections 'footer-group' %}
+    <script src="{{ 'quick-add.js' | asset_url }}" defer></script>
+    <script src="{{'predictive-search.js' | asset_url}}" defer="defer"></script>
+    <script src="{{'search-overlay.js' | asset_url}}" defer="defer"></script>
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'quantity-update.js' | asset_url }}" defer></script>
+  </body>
 </html>

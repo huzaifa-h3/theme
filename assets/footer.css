@@ -18,7 +18,7 @@
   height: 37%;
 }
 .newsletter_title h3{
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
 }
 .footer_newsletter {
   width: 100%;

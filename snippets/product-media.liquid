@@ -1,28 +1,24 @@
-<style>
-  .product__image {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    max-height: 550px;
-  }
-
-  @media (max-width: 768px) {
-    .product__image {
-      max-height: 400px;
-    }
-  }
-</style>
-
 {% case media.media_type %}
-{% when 'image' %}
-<img src="{{ media | image_url: width: 600, height: 550 }}" alt="{{ media.preview_image.alt | escape }}"
-  class="product__image {{ class }}" height="" width="" loading="lazy">
-{% when 'video' %}
-<video class="product__video {{ class }}" controls
-  poster="{{ media.preview_image | image_url: width: 600, height: 550 }}">
-  <source src="{{ media.sources[0].url }}" type="{{ media.sources[0].mime_type }}">
-  Your browser does not support the video tag.
-</video>
-{% else %}
-<p>Unsupported media type: {{ media.media_type }}</p>
+  {% when 'image' %}
+    <img
+      src="{{ media | image_url: width: 600, height: 550 }}"
+      alt="{{ media.alt | escape }}"
+      class="product__image {{ class }}"
+      height=""
+      width=""
+      loading="lazy"
+      data-product-image="{{product.id}}"
+    >
+
+  {% when 'video' %}
+    <video
+      class="product__video {{ class }}"
+      controls
+      poster="{{ media.preview_image | image_url: width: 600, height: 550 }}"
+    >
+      <source src="{{ media.sources[0].url |  image_url  }}" type="{{ media.sources[0].mime_type }}">
+      Your browser does not support the video tag.
+    </video>
+  {% else %}
+    <p>Unsupported media type: {{ media.media_type }}</p>
 {% endcase %}

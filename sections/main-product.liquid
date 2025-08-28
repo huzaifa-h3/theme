@@ -7,9 +7,21 @@
 <div class="main-product">
   <div class="product-wrapper">
     <div class="product-media">
-      {% for media in product.media %}
-        {%- render 'product-media', media: media -%}
-      {% endfor %}
+      <div class="desktop-product_images">
+        {% for media in product.media %}
+          {%- render 'product-media', media: media -%}
+        {% endfor %}
+      </div>
+      <div class="mobile-product_images swiper">
+        <div class="swiper-wrapper">
+          {% for media in product.media %}
+            <div class="swiper-slide">
+              {%- render 'product-media', media: media -%}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
     </div>
     <div class="product-info">
       {% comment %} product discount and qty left logic {% endcomment %}
@@ -19,11 +31,11 @@
             <span>{{ discount_percentage }}% OFF</span>
           </div>
         {% endif %}
-        {% if current_variant.inventory_quantity <= 5 and current_variant.inventory_quantity > 0 %}
+        {% if current_variant.inventory_quantity <= 3 and current_variant.inventory_quantity > 0 %}
           <div class="qty-left-badge">
             <span>Last Few</span>
           </div>
-        {%- elsif current_variant.inventory_quantity <= 20 and current_variant.inventory_quantity > 5 -%}
+        {%- elsif current_variant.inventory_quantity <= 20 and current_variant.inventory_quantity > 3 -%}
           <div class="qty-left-badge">
             <span>Hurry Up! Only {{ current_variant.inventory_quantity }} Left</span>
           </div>
@@ -54,92 +66,250 @@
       </div>
 
       {% comment %} Product variants {% endcomment %}
-      {%- unless product.has_only_default_variant -%}
-        <div class="variant-selector">
-          {%- for option in product.options_with_values -%}
-            {%- assign option_index = forloop.index0 -%}
-            {%- assign is_color = false -%}
-            {%- if option.name contains 'color' or option.name contains 'colour' -%}
-              {%- assign is_color = true -%}
-            {%- endif -%}
-            <div class="option-group {{ option.name | handleize }}">
-              <legend class="option-label">
-                {{ option.name | escape -}}
-                <span class="visually-hidden"></span>
-              </legend>
-              <div class="option-values" role="radiogroup" aria-labelledby="{{ option.name | handleize }}-label">
-                {%- for value in option.values -%}
-                  {%- assign value_handle = value | handleize -%}
-                  {%- assign available = false -%}
-                  {%- for variant in product.variants -%}
-                    {%- if variant.available and variant.options[option_index] == value -%}
-                      {%- assign available = true -%}
-                      {%- break -%}
-                    {%- endif -%}
+      <form id="add-to-cart-form">
+        {%- unless product.has_only_default_variant -%}
+          <div class="variant-selector">
+            {%- for option in product.options_with_values -%}
+              {%- assign option_index = forloop.index0 -%}
+              {%- assign is_color = false -%}
+              {%- if option.name contains 'color' or option.name contains 'colour' -%}
+                {%- assign is_color = true -%}
+              {%- endif -%}
+              <div class="option-group {{ option.name | handleize }}">
+                <legend class="option-label">
+                  {{ option.name | escape -}}
+                  <span class="visually-hidden"></span>
+                </legend>
+                <div class="option-values" role="radiogroup" aria-labelledby="{{ option.name | handleize }}-label">
+                  {%- for value in option.values -%}
+                    {%- assign value_handle = value | handleize -%}
+                    {%- assign available = false -%}
+                    {%- for variant in product.variants -%}
+                      {%- if variant.available and variant.options[option_index] == value -%}
+                        {%- assign available = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- assign color_image = value_handle | append: '.png' | asset_url | default: '' -%}
+                    <input
+                      type="radio"
+                      id="option-{{ option_index }}-{{ value_handle }}"
+                      name="options[{{ option.name | escape }}]"
+                      value="{{ value | escape }}"
+                      {% if available == false %}
+                        disabled
+                      {% endif %}
+                      {% if product.selected_or_first_available_variant.options[option_index] == value %}
+                        checked
+                      {% endif %}
+                      class="option-input visually-hidden"
+                    >
+                    <label
+                      for="option-{{ option_index }}-{{ value_handle }}"
+                      class="option-button {% if is_color %}color-button{% else %}text-button{% endif %} {% if available == false %}disabled{% endif %}"
+                    >
+                      {%- if is_color and color_image != blank -%}
+                        <img
+                          src="{{ color_image | image_url }}"
+                          alt="{{ value | escape }} swatch"
+                          width="50"
+                          height="50"
+                        >
+                      {%- elsif is_color -%}
+                        <span
+                          style="background-color: {{ value | downcase }}; width: 50px; height: 50px; display: block;"
+                        ></span>
+                      {%- else -%}
+                        {{ value }}
+                      {%- endif -%}
+                      <span class="visually-hidden">{{ value }}</span>
+                    </label>
                   {%- endfor -%}
-                  {%- assign color_image = value_handle | append: '.png' | asset_url | default: '' -%}
-                  <input
-                    type="radio"
-                    id="option-{{ option_index }}-{{ value_handle }}"
-                    name="options[{{ option.name | escape }}]"
-                    value="{{ value | escape }}"
-                    {% if available == false %}
-                      disabled
-                    {% endif %}
-                    {% if product.selected_or_first_available_variant.options[option_index] == value %}
-                      checked
-                    {% endif %}
-                    class="option-input visually-hidden"
-                  >
-                  <label
-                    for="option-{{ option_index }}-{{ value_handle }}"
-                    class="option-button {% if is_color %}color-button{% else %}text-button{% endif %} {% if available == false %}disabled{% endif %}"
-                  >
-                    {%- if is_color and color_image != blank -%}
-                      <img src="{{ color_image }}" alt="{{ value | escape }} swatch" width="50" height="50">
-                    {%- elsif is_color -%}
-                      <span
-                        style="background-color: {{ value | downcase }}; width: 50px; height: 50px; display: block;"
-                      ></span>
-                    {%- else -%}
-                      {{ value }}
-                    {%- endif -%}
-                    <span class="visually-hidden">{{ value }}</span>
-                  </label>
-                {%- endfor -%}
+                </div>
               </div>
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endunless -%}
-
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="variant-id">
-
-      {% comment %} Quantity selector, Add to cart & Buy now {% endcomment %}
-      <div class="quick-actions">
-        <div class="qty-add-to-cart">
-          <div class="quantity-selector">
-            <button type="button" class="quantity-btn" onclick="decreaseQuantity(this)">−</button>
-            <input type="number" class="quantity-input" name="quantity" value="1" min="1" max="99">
-            <button type="button" class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            {%- endfor -%}
           </div>
+        {%- endunless -%}
 
-          <button class="btn-primary">Add to Cart</button>
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" id="variant-id">
+
+        {% comment %} Quantity selector, Add to cart & Buy now {% endcomment %}
+        <div class="quick-actions">
+          <div class="qty-add-to-cart">
+            <div class="quantity-selector">
+              <button type="button" class="quantity-btn" onclick="decreaseQuantity(this)">−</button>
+              <input type="number" class="quantity-input" name="quantity" value="1" min="1" max="99">
+              <button type="button" class="quantity-btn" onclick="increaseQuantity(this)">+</button>
+            </div>
+
+            <button
+              type="submit"
+              class="btn-primary"
+              id="add-to-cart-btn"
+              {% unless product_avalaiblity %}
+                disabled
+              {% endunless %}
+            >
+              Add to Cart
+            </button>
+          </div>
+          <button
+            {% unless product_avalaiblity %}
+              disabled
+              class="disabled btn-secondary"
+            {% endunless %}
+            class="btn-secondary"
+          >
+            {% if product_avalaiblity %}
+              Buy Now
+            {% else %}
+              Out of stock
+            {% endif %}
+          </button>
         </div>
-        <button
-          {% unless product_avalaiblity %}
-            disabled
-            class="disabled btn-secondary"
-          {% endunless %}
-          class="btn-secondary"
-        >
-          {% if product_avalaiblity %}
-            Buy Now
-          {% else %}
-            Out of stock
-          {% endif %}
-        </button>
-      </div>
+      </form>
     </div>
   </div>
 </div>
+
+<div id="image-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img src="" alt="Product Image" id="modalImage" class="modal-image" height="" width="">
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const productImages = document.querySelectorAll('.product__image');
+    const modal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalClose = document.querySelector('.modal-close');
+    const addToCartForm = document.getElementById('add-to-cart-form');
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    const variantIdInput = document.getElementById('variant-id');
+    const variantInputs = document.querySelectorAll('.option-input');
+
+    // Initialize Swiper for mobile images
+    const swiper = new Swiper('.mobile-product_images', {
+      loop: true,
+      grabCursor: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      spaceBetween: 10,
+    });
+
+    // Modal functionality
+    if (!modal || !productImages.length) {
+      console.log('Modal or images not found:', { modal, productImages });
+      return;
+    }
+
+    const openModal = () => (modal.style.display = 'flex');
+    const closeModal = () => (modal.style.display = 'none');
+
+    productImages.forEach((image) => {
+      image.addEventListener('click', (e) => {
+        if (e.target.classList.contains('product__image')) {
+          modalImage.src = e.target.src;
+          modalImage.alt = e.target.alt;
+          openModal();
+        }
+      });
+    });
+
+    modalClose.addEventListener('click', () => {
+      closeModal();
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Quantity selector functions
+    window.decreaseQuantity = (button) => {
+      const input = button.nextElementSibling;
+      let value = parseInt(input.value);
+      if (value > 1) {
+        input.value = value - 1;
+      }
+    };
+
+    window.increaseQuantity = (button) => {
+      const input = button.previousElementSibling;
+      let value = parseInt(input.value);
+      if (value < 99) {
+        input.value = value + 1;
+      }
+    };
+
+    // Update variant ID when a variant is selected
+    variantInputs.forEach((input) => {
+      input.addEventListener('change', () => {
+        const selectedOptions = [];
+        document.querySelectorAll('.option-input:checked').forEach((checkedInput) => {
+          selectedOptions.push(checkedInput.value);
+        });
+
+        // Find the variant that matches the selected options
+        const variants = {{ product.variants | json }};
+        const selectedVariant = variants.find((variant) => {
+          return variant.options.every((option, index) => option === selectedOptions[index]);
+        });
+
+        if (selectedVariant) {
+          variantIdInput.value = selectedVariant.id;
+        }
+      });
+    });
+
+    // Add to cart functionality
+    addToCartForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      addToCartBtn.disabled = true;
+      addToCartBtn.textContent = 'Adding...';
+
+      const formData = new FormData(addToCartForm);
+      const data = {
+        id: formData.get('id'),
+        quantity: formData.get('quantity'),
+      };
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((cart) => {
+          addToCartBtn.textContent = 'Added!';
+          setTimeout(() => {
+            addToCartBtn.textContent = 'Add to Cart';
+            addToCartBtn.disabled = false;
+          }, 1000);
+          // Optionally, update cart count or redirect to cart page
+          console.log('Item added to cart:', cart);
+        })
+        .catch((error) => {
+          console.error('Error adding to cart:', error);
+          addToCartBtn.textContent = 'Error';
+          setTimeout(() => {
+            addToCartBtn.textContent = 'Add to Cart';
+            addToCartBtn.disabled = false;
+          }, 1000);
+        });
+    });
+  });
+</script>

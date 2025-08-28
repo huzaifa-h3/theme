@@ -41,7 +41,8 @@
                 {{
                   image
                   | image_url: width: 300, height: 300
-                  | image_tag: loading: 'lazy', class: 'product_image', alt: product.title | escape
+                  | image_tag: loading: 'lazy', class: 'product_image', alt: product.title
+                  | escape
                 }}
                 {% if product.compare_at_price_max > product.price %}
                   <div class="product_on-sale product-badge">-{{ discount_percentage }}%</div>
@@ -58,7 +59,8 @@
           {{
             product.featured_image
             | image_url: width: 300, height: 300
-            | image_tag: loading: 'lazy', class: 'product_image', alt: product.title | escape
+            | image_tag: loading: 'lazy', class: 'product_image', alt: product.title
+            | escape
           }}
         {% else %}
           {{ 'no-image' | placeholder_svg_tag: 'product_image' }}
@@ -69,7 +71,7 @@
     <!-- product info -->
     <div class="product__info">
       {% comment %} Product Name/Title {% endcomment %}
-    <h5 class="product_title">{{ product.title | truncate: 25 | escape }}</h5>
+      <h5 class="product_title">{{ product.title | truncate: 25 | escape }}</h5>
 
       {% comment %} Product price {% endcomment %}
       {% if product.compare_at_price_max > product.price %}
@@ -80,10 +82,10 @@
       {% else %}
         <p>{{ product.price | money_with_currency }}</p>
       {% endif %}
-            {% comment %} Product Vendor {% endcomment %}
-      {% if product.vendor %}        
+      {% comment %} Product Vendor {% endcomment %}
+      {% if product.vendor %}
         <div class="product-vendor">
-          <span>{{product.vendor}}</span>
+          <span>{{ product.vendor }}</span>
         </div>
       {% endif %}
     </div>
@@ -102,13 +104,13 @@
         speed: 400,
         keyboard: {
           enabled: true,
-          onlyInViewport: true
+          onlyInViewport: true,
         },
         a11y: {
           enabled: true,
           prevSlideMessage: 'Previous slide',
-          nextSlideMessage: 'Next slide'
-        }
+          nextSlideMessage: 'Next slide',
+        },
       });
     }
   });
