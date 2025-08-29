@@ -208,3 +208,8 @@
   opacity: 1;
   pointer-events: auto;
 }
+@media (max-width: 768px){
+  .cart_drawer{
+    width: 100%;
+  }
+}

@@ -4,48 +4,48 @@
     text-align: center;
     overflow: hidden;
     padding: 0 20px;
-}
-.search__result{
-  text-align: left;
-  font-weight: 500;
-}
-.search-results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 30px;
-  width: 100%;
-  margin-top: 20px;
-}
+  }
+  .search__result {
+    text-align: left;
+    font-weight: 500;
+  }
+  .search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 30px;
+    width: 100%;
+    margin-top: 20px;
+  }
 
-.search-result-card {
-  text-align: center;
-}
+  .search-result-card {
+    text-align: center;
+  }
 
-.search-product_image {
-  width: 100%;
-  height: 280px; 
-  object-fit: cover;
-  margin-bottom: 15px;
-}
+  .search-product_image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
 
-.search-result-card p {
-  margin: 8px 0;
-  line-height: 1.4;
-  text-align: left;
-}
+  .search-result-card p {
+    margin: 8px 0;
+    line-height: 1.4;
+    text-align: left;
+  }
 
-.search-result-card p:first-of-type {
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 8px;
-  text-align: left;
-}
+  .search-result-card p:first-of-type {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+    text-align: left;
+  }
 
-.search-result-card p:last-of-type {
-  font-size: 16px;
-  color: #000;
-  text-align: left;
-}
+  .search-result-card p:last-of-type {
+    font-size: 16px;
+    color: #000;
+    text-align: left;
+  }
 </style>
 
 <div class="search-page">
@@ -58,9 +58,13 @@
           <div class="search-result-card">
             <a href="{{ item.url }}" class="search__item">
               {% if item.object_type == 'product' %}
-                {{ item.featured_image | image_url: width: 300 | image_tag: class: 'search-product_image', alt: item.title}}
-                <p>{{ item.title |  truncate: 35 }}</p>
-                <p>{{ item.price | money }}</p>
+                {{
+                  item.featured_image
+                  | image_url: width: 300
+                  | image_tag: class: 'search-product_image', alt: item.title
+                }}
+                <p>{{ item.title | truncate: 35 }}</p>
+                <p>{{ item.price | money_with_currency }}</p>
 
               {% elsif item.object_type == 'collection' %}
                 {{ item.image | image_url: width: 300 | image_tag }}

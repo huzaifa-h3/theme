@@ -1,56 +1,56 @@
 [
-    {
-        "name": "theme_info",
-        "theme_name": "Theme",
-        "theme_author": "Huzaifa",
-        "theme_documentation_url": "https://example.com",
-        "theme_support_email": "example@example.com",
-        "theme_version": "1.0.0"
-    },
-    {
-        "name": "FavIcon",
-        "settings": [
-            {
-                "type": "image_picker",
-                "id": "favicon",
-                "label": "FavIcon"
-            }
-        ]
-    },
-    {
-        "name": "Logo",
-        "settings": [
-            {
-                "type": "image_picker",
-                "id": "logo",
-                "label": "Logo"
-            },
-            {
-                "type": "range",
-                "id": "logo_width",
-                "label": "width",
-                "min": 60,
-                "max": 200,
-                "default": 160,
-                "step": 2
-            }
-        ]
-    },
-    {
-        "name": "Typography",
-        "settings": [
-            {
-                "type": "font_picker",
-                "id": "type_body_font",
-                "default": "work_sans_n4",
-                "label": "Body Font"
-            },
-            {
-                "type": "font_picker",
-                "id": "type_heading_font",
-                "default": "work_sans_n7",
-                "label": "Heading Font"
-            }
-        ]
-    }
+  {
+    "name": "theme_info",
+    "theme_name": "Theme",
+    "theme_author": "Huzaifa",
+    "theme_documentation_url": "https://example.com",
+    "theme_support_email": "example@example.com",
+    "theme_version": "1.0.0"
+  },
+  {
+    "name": "FavIcon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "FavIcon"
+      }
+    ]
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "width",
+        "min": 60,
+        "max": 200,
+        "default": 160,
+        "step": 2
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "jost_n4",
+        "label": "Body Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "default": "jost_n5",
+        "label": "Heading Font"
+      }
+    ]
+  }
 ]

@@ -15,7 +15,7 @@
     height: 100%;
     width: 100%;
     position: relative;
-    padding: 25px 35px;
+    padding: 25px 60px;
   }
   #close_menu {
     position: absolute;
@@ -23,35 +23,62 @@
     top: 1%;
   }
   .navigation_menu_item {
-    padding: 10px 0;
+    padding: 5px 0;
     transition: 0.3s ease-in-out;
+  }
+  .navigation_menu_item a {
+    font-size: var(--font-size-base);
   }
   .navigation_menu_item:hover {
     transform: translateX(8px);
   }
   @media (max-width: 768px) {
-    .menu_sidebar{
+    .menu_sidebar {
       width: 100%;
     }
   }
   .menu_overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0,0,0,0.3);
-  backdrop-filter: blur(4px); /* optional blur */
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 100; /* below menu_sidebar (110) */
-}
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px); /* optional blur */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100; /* below menu_sidebar (110) */
+  }
 
-.menu_overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+  .menu_overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .collections-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    padding-top: 30px;
+  }
+  .collections-header a {
+    font-size: var(--font-size-sm);
+  }
+  .collections-header a:hover{
+    font-weight: 600;
+  }
+  .sale-end {
+    padding: 25px 0;
+  }
+  .sale-end * {
+    font-size: var(--font-size-sm);
+    color: #ef2d2d;
+  }
+  .sale-end *:hover {
+    font-weight: 600;
+  }
 </style>
 <div class="menu_overlay"></div>
 <div class="menu_sidebar">
@@ -68,6 +95,19 @@
         {% endif %}
       </a>
     </div>
+    {% comment %} collections {% endcomment %}
+    {% if section.settings.show_collection == true %}
+      <div class="collections-header">
+        <a href="{{section.settings.collection_1.url}}">{{ section.settings.collection_1 | upcase }}</a>
+        <a href="{{section.settings.collection_2.url}}">{{ section.settings.collection_2 | upcase }}</a>
+        <a href="{{section.settings.collection_2.url}}">{{ section.settings.collection_3 | upcase }}</a>
+      </div>
+    {% endif %}
+    {% if section.settings.sale_end %}
+      <div class="sale-end">
+        {{ section.settings.sale_end }}
+      </div>
+    {% endif %}
     <nav class="navigation_menu">
       {% for link in linklists[section.settings.menu].links %}
         <li class="navigation_menu_item">
@@ -77,4 +117,3 @@
     </nav>
   </div>
 </div>
-

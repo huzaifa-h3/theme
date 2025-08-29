@@ -50,7 +50,7 @@
           {% if cart.item_count > 99 %}
             <span class="cart_item-count">99+</span>
           {% else %}
-            <span class="cart_item-count">{{cart.item_count}}</span>
+            <span class="cart_item-count">{{ cart.item_count }}</span>
           {% endif %}
         {% endif %}
         <img
@@ -79,6 +79,33 @@
       "id": "menu",
       "default": "main-menu",
       "label": "Select avigation Menu"
+    },
+    {
+      "type": "checkbox",
+      "label": "Show Collections",
+      "id": "show_collection",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Collection"
+    },
+    {
+      "type": "richtext",
+      "id": "sale_end",
+      "label": "Offer/Sale",
+      "default": "<p>End Of Season Sale Upto 50% Off</p>"
     }
   ],
   "presets": [

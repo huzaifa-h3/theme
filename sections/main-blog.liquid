@@ -1,0 +1,149 @@
+<style>
+  .blogs-layout {
+    width: var(--narrow-page-width);
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  .blogs-wrapper {
+    margin-top: 50px;
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    gap: 50px;
+    width: 100%;
+  }
+  .categories-sidebar {
+    width: 35%;
+  }
+  .blogs {
+    width: fit-content;
+  }
+  .categories-sidebar h2 {
+    font-size: var(--font-size-lg);
+    width: fit-content;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  .blog-categories {
+    margin-top: 5px;
+    width: 100%;
+  }
+  .blog-categories li a {
+    border-bottom: 1px dashed #ccc;
+    display: block;
+    padding: 20px 0 2px 0;
+    color: #00000099;
+    font-size: var(--font-size-sm);
+  }
+  .article {
+    display: flex;
+    align-items: flex-start;
+    justify-content: start;
+    gap: 20px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #dddddd;
+  }
+  .article-image {
+    border-radius: 8px;
+  }
+  .article-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .publish-and-comment span {
+    color: #00000099;
+    font-size: var(--font-size-xs);
+  }
+  .publish-and-comment > :first-child {
+    border-right: 1px solid #ccc;
+    padding-right: 5px;
+  }
+  .article-title {
+    font-size: var(--font-size-lg);
+    font-weight: medium;
+  }
+  .article-info p {
+    font-size: var(--font-size-sm);
+    color: #00000099;
+  }
+  .read-more {
+    text-decoration: underline;
+    font-size: var(--font-size-sm);
+    padding-top: 4px;
+  }
+  @media (max-width: 768px) {
+    .blogs-wrapper {
+      flex-direction: column;
+      gap: 30px;
+      align-items: stretch;
+    }
+    .categories-sidebar {
+      width: 100%;
+      padding: 0 10px;
+    }
+    .blogs {
+      width: 100%;
+    }
+    .article {
+      gap: 15px;
+      padding: 15px 10px;
+    }
+    .article-image {
+      width: 100px; /* Increased from 40px for better visibility */
+      height: 100px; /* Increased from 40px */
+      object-fit: cover; /* Ensures image maintains aspect ratio */
+    }
+    .article-title {
+      font-size: var(--font-size-md); /* Adjusted for readability */
+    }
+    .article-info p {
+      font-size: var(--font-size-sm); /* Kept readable */
+    }
+    .read-more {
+      font-size: var(--font-size-sm); /* Kept consistent */
+    }
+  }
+</style>
+
+<div class="blogs-layout">
+  <div class="blogs-wrapper">
+    <aside class="categories-sidebar">
+      <h2>Categories</h2>
+      <ul class="blog-categories">
+        {% for tag in blog.all_tags %}
+          <li>
+            <a href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </aside>
+
+    <div class="blogs">
+      <div class="articles">
+        {% for article in blog.articles %}
+          <a href="{{article.url}}" class="article">
+            <img
+              src="{{article.image | image_url: width: 480 }}"
+              height=""
+              width="380"
+              alt="{{article.image.alt}}"
+              class="article-image"
+            >
+            <div class="article-info">
+              <div class="publish-and-comment">
+                <span>{{ article.published_at | date: '%B %d, %Y' }}</span>
+                <span>Comments {{ article.comments_count }}</span>
+              </div>
+              <h3 class="article-title">{{ article.title }}</h3>
+              <p class="title-description">{{ article.content | truncatewords: 45 }}</p>
+              <span class="read-more">{{ 'Read More' | upcase }}</span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,8 +7,7 @@ header .fixed-header {
   left: 0%;
   z-index: 50;
   width: 100%;
-  z-index: 99;
-  width: var(--narrow-page-width);
+  margin: 0 auto;
 }
 .theme_header {
   display: flex;

@@ -1,68 +1,91 @@
-// Update Quantity
-function updateQuantity(itemKey, change = 0) {
-  const input = document.querySelector(`.quantity-input[data-item-key="${itemKey}"]`);
+<div id="imageModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="Product Image" class="modal-image">
+  </div>
+</div>
 
-  let qty = parseInt(input.value) + change;
-
-  if (qty < 1) qty = 1;
-  if (qty > 99) qty = 99;
-  input.value = qty;
-
-  // AJAX call to Shopify cart
-  fetch('/cart/change.js', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: itemKey, quantity: qty })
-  })
-  .then(res => res.json())
-  .then(updateCartUI)
-  .catch(err => console.error(err));
-}
-
-// Remove Item
-function removeItem(itemKey) {
-  fetch('/cart/change.js', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: itemKey, quantity: 0 })
-  })
-  .then(res => res.json())
-  .then(updateCartUI)
-  .catch(err => console.error(err));
-}
-
-// Update Cart UI
-function updateCartUI(cart) {
-  cart.items.forEach(item => {
-    const totalEl = document.querySelector(`.items-total[data-item-key='${item.key}'] p`);
-    const inputEl = document.querySelector(`.quantity-input[data-item-key='${item.key}']`);
-    if(totalEl) totalEl.textContent = Shopify.formatMoney(item.line_price, "{{ shop.money_format }}");
-    if(inputEl) inputEl.value = item.quantity;
-  });
-
-  // Update subtotal
-  const subtotalEl = document.querySelector('.subtotal span');
-  if(subtotalEl) subtotalEl.textContent = Shopify.formatMoney(cart.items_subtotal_price, "{{ shop.money_format }}");
-
-  // Remove deleted items from DOM
-  cart.items.forEach(item => {
-    const row = document.querySelector(`.quantity-input[data-item-key='${item.key}']`)?.closest('tr');
-    if(row) row.style.display = '';
-  });
-
-  document.querySelectorAll('.quantity-input').forEach(input => {
-    const row = input.closest('tr');
-    const itemKey = input.dataset.itemKey;
-    const exists = cart.items.some(i => i.key === itemKey);
-    if(!exists && row) row.remove();
-  });
-
-  // Show empty cart
-  if(cart.item_count === 0) {
-    document.querySelector('.cart-wrapper').style.display = 'none';
-    document.querySelector('.empty-cart').style.display = 'flex';
-  } else {
-    document.querySelector('.cart-wrapper').style.display = 'block';
-    document.querySelector('.empty-cart').style.display = 'none';
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-}
+
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+  }
+
+  .modal-image {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .modal-image {
+      max-height: 70vh;
+    }
+
+    .modal-close {
+      top: -20px;
+      right: -20px;
+      font-size: 24px;
+    }
+  }
+</style>
+
+<script>
+  const productImages = document.querySelectorAll('.product__image');
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  const closeModal = document.querySelector('.modal-close');
+
+  productImages.forEach((image) => {
+    image.addEventListener('click', (e) => {
+      if (e.target.classList.contains('product__image')) {
+        modalImage.src = e.target.src; // Set modal image source to clicked image
+        modalImage.alt = e.target.alt; // Set alt text
+        modal.style.display = 'flex'; // Show modal
+      }
+    });
+  });
+
+  // Close modal when clicking the close button
+  closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  // Close modal when clicking outside the image
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  // Optional: Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.style.display === 'flex') {
+      modal.style.display = 'none';
+    }
+  });
+</script>
