@@ -2,8 +2,8 @@
 <div class="theme_header {% if request.page_type == 'index' %} fixed-header {% endif %} ">
   <div class="header_left">
     <div class="header_menu">
-      <button
-        type="button"
+      <a
+        role="button"
         class="menu_btn"
         id="menu_btn"
       >
@@ -12,7 +12,7 @@
           width="30"
           height="40"
         >
-      </button>
+      </a>
       {% render 'menu-sidebar' %}
     </div>
     <div class="header_logo">
@@ -31,13 +31,13 @@
   </div>
   <div class="header_right">
     <div class="header_actions">
-      <button type="button" id="search-trigger-btn" aria-controls="main-search">
+      <a role="button" id="search-trigger-btn" aria-controls="main-search">
         <img
           src="{{ 'icon-search.svg' | asset_url }}"
           width="22"
           height="32"
         >
-      </button>
+      </a>
       <a href="{{ routes.account_login_url }}">
         <img
           src="{{ 'icon-user.svg' | asset_url }}"
@@ -45,7 +45,7 @@
           height="32"
         >
       </a>
-      <button type="button" class="cart-header_btn">
+      <a role="button" class="cart-header_btn">
         {% if cart.item_count > 0 %}
           {% if cart.item_count > 99 %}
             <span class="cart_item-count">99+</span>
@@ -58,7 +58,7 @@
           width="22"
           height="32"
         >
-      </button>
+      </a>
     </div>
   </div>
   {% render 'cart-drawer' %}

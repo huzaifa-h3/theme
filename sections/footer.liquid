@@ -1,65 +1,72 @@
 {{ 'footer.css' | asset_url | stylesheet_tag }}
 
 <div class="theme__footer">
-  <div class="ns">
-    {% for block in section.blocks %}
-      {% case block.type %}
-        {% when 'newsletter' %}
-          <div class="footer_newsletter" style="margin-top: 130px;">
-            <div class="newsletter_title">{{ block.settings.newsletter_title }}</div>
-            {% form 'customer' %}
-              <div class="newsletter-email">
-                <input type="email" name="contact[email]" placeholder="{{ block.settings.email_input_placeholder }}" required>
+  <div class="footer-wrapper">
+    <div class="ns">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'newsletter' %}
+            <div class="footer_newsletter" style="margin-top: 130px;">
+              <div class="newsletter_title">{{ block.settings.newsletter_title }}</div>
+              {% form 'customer' %}
+                <div class="newsletter-email">
+                  <input
+                    type="email"
+                    name="contact[email]"
+                    placeholder="{{ block.settings.email_input_placeholder }}"
+                    required
+                  >
                   <button type="submit"><img src="{{ 'icon-arrow-right.svg' | asset_url }}" width="" height=""></button>
-              </div>
-            {% endform %}
-          </div>
-      {% endcase %}
-    {% endfor %}
-  </div>
-  <div class="footer__grid">
-    {% for block in section.blocks %}
-      {% case block.type %}
-        {% when 'menu' %}
-          <ul class="footer__menu_list">
-            {% for link in linklists[block.settings.menu_1].links %}
-              <li>
-                <a class="footer_menu_item" href="{{ link.url }}">{{ link.title }}</a>
-              </li>
-            {% endfor %}
-          </ul>
+                </div>
+              {% endform %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+    <div class="footer__grid">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'menu' %}
+            <ul class="footer__menu_list">
+              {% for link in linklists[block.settings.menu_1].links %}
+                <li>
+                  <a class="footer_menu_item" href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
 
-        {% when 'image' %}
-          <div class="footer__logo">
-            <img
-              src="{{ block.settings.footer_logo | image_url }}"
-              alt="{{ block.settings.footer_log.alt | escape }}"
-              height=""
-              width=""
-            >
-          </div>
+          {% when 'image' %}
+            <div class="footer__logo">
+              <img
+                src="{{ block.settings.footer_logo | image_url }}"
+                alt="{{ block.settings.footer_log.alt | escape }}"
+                height=""
+                width=""
+              >
+            </div>
 
-        {% when 'menu2' %}
-          <ul class="footer__menu_list">
-            {% for link in linklists[block.settings.menu_2].links %}
-              <li>
-                <a class="footer_menu_item" href="{{ link.url }}">{{ link.title }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-      {% endcase %}
-    {% endfor %}
-    <div class="copyright_text">
-      <p>
-        © {{ 'now' | date: '%Y' }}
-        {{ shop.name }}. All rights reserved.
-      </p>
+          {% when 'menu2' %}
+            <ul class="footer__menu_list">
+              {% for link in linklists[block.settings.menu_2].links %}
+                <li>
+                  <a class="footer_menu_item" href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+        {% endcase %}
+      {% endfor %}
+      <div class="copyright_text">
+        <p>
+          © {{ 'now' | date: '%Y' }}
+          {{ shop.name }}. All rights reserved.
+        </p>
+      </div>
     </div>
   </div>
 </div>
 
 {% if request.page_type == 'index' %}
-  <script> 
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Wait for swiper to be initialized
       setTimeout(() => {
@@ -69,29 +76,29 @@
         if (verticalSwipers.length > 0 && originalFooter) {
           // Remove footer from its original position
           originalFooter.remove();
-          
+
           verticalSwipers.forEach((swiperElement, index) => {
             const verticalWrapper = swiperElement.querySelector('.swiper-wrapper');
-            
+
             if (verticalWrapper) {
               // Create footer slide for this swiper
               const footerSlide = document.createElement('div');
               footerSlide.className = 'swiper-slide';
-              
+
               // Clone footer for each swiper (except the first one gets the original)
               const footerToAdd = index === 0 ? originalFooter : originalFooter.cloneNode(true);
               footerSlide.appendChild(footerToAdd);
-              
+
               // Append to this vertical swiper
               verticalWrapper.appendChild(footerSlide);
-              
+
               if (window.verticalSwipers && window.verticalSwipers[index]) {
                 window.verticalSwipers[index].update();
               }
             }
           });
         }
-      }, 200); // Increased delay to ensure all swipers are ready
+      }, 200);
     });
   </script>
 {% endif %}

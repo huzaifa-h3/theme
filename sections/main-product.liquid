@@ -153,19 +153,20 @@
               Add to Cart
             </button>
           </div>
-          <button
-            {% unless product_avalaiblity %}
-              disabled
-              class="disabled btn-secondary"
-            {% endunless %}
-            class="btn-secondary"
+          <a
+          {% unless product_avalaiblity %}
+            href="#"
+            class="disabled btn-secondary"
+          {% endunless %}
+          class="btn-secondary"
+          href="/checkout"
           >
             {% if product_avalaiblity %}
               Buy Now
             {% else %}
               Out of stock
             {% endif %}
-          </button>
+          </a>
         </div>
       </form>
     </div>

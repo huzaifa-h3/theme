@@ -1,5 +1,60 @@
 {
     "current": {
-        "favicon": null
+        "favicon": null,
+        "logo": null,
+        "logo_width": 160,
+        "logo_height": 60,
+        "type_body_font": "space_grotesk_n4",
+        "type_heading_font": "space_grotesk_n5",
+        "body_font_size": 16,
+        "heading_font_size": 24,
+        "color_schemes": {
+            "Light": {
+                "settings": {
+                    "background": "#FFFFFF",
+                    "background_gradient": "",
+                    "text": "#121212",
+                    "primary_button": "#000000",
+                    "on_primary_button": "#FFFFFF",
+                    "primary_button_border": "#000000",
+                    "secondary_button": "#FFFFFF",
+                    "on_secondary_button": "#000000",
+                    "secondary_button_border": "#000000",
+                    "links": "#1A73E8",
+                    "shadow": "#121212",
+                    "accent": "#FF6200"
+                }
+            },
+            "Dark": {
+                "settings": {
+                    "background": "#121212",
+                    "background_gradient": "",
+                    "text": "#FFFFFF",
+                    "primary_button": "#FFFFFF",
+                    "on_primary_button": "#000000",
+                    "primary_button_border": "#FFFFFF",
+                    "secondary_button": "#333333",
+                    "on_secondary_button": "#FFFFFF",
+                    "secondary_button_border": "#333333",
+                    "links": "#4A90E2",
+                    "shadow": "#000000",
+                    "accent": "#FF6200"
+                }
+            }
+        },
+        "layout_width": "boxed",
+        "max_width": 1200,
+        "enable_sticky_header": true,
+        "social_facebook_url": "",
+        "social_twitter_url": "",
+        "social_instagram_url": "",
+        "show_social_icons": true,
+        "footer_copyright_text": "© 2025 Your Store Name. All rights reserved.",
+        "show_payment_icons": true,
+        "footer_columns": "3",
+        "show_product_zoom": true,
+        "show_quantity_selector": true,
+        "show_sku": false,
+        "product_image_layout": "carousel"
     }
 }

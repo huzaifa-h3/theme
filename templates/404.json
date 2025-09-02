@@ -1,8 +1,10 @@
 {
+  "name": "Contact",
   "sections": {
-    "main-404": {
-      "type": "main-404"
+    "main": {
+      "type": "contact",
+      "settings": {}
     }
   },
-  "order": ["main-404"]
+  "order": ["main"]
 }

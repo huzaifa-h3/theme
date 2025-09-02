@@ -1,0 +1,41 @@
+<style>
+  .article-share {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+</style>
+
+<!-- snippets/article-share.liquid -->
+<div class="article-share">
+  <p>Share</p>
+  <a
+    href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img src="{{'Facebook-Logo.svg' |  asset_url}}" height="auto" width="25" alt="facebook">
+  </a>
+
+  <a
+    href="https://twitter.com/intent/tweet?url={{ shop.url }}{{ article.url }}&text={{ article.title }}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img src="{{'X-logo.svg' |  asset_url}}" height="auto" width="22" alt="X">
+  </a>
+
+  <a
+    href="https://www.linkedin.com/sharing/share-offsite/?url={{ shop.url }}{{ article.url }}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <img src="{{'Linkedin-logo.svg' |  asset_url}}" height="auto" width="25" alt="X">
+  </a>
+
+  <a href="mailto:?subject={{ article.title }}&body=Check%20this%20out:%20{{ shop.url }}{{ article.url }}">
+    <img src="{{'icon-email.svg' |  asset_url}}" height="auto" width="29" alt="X">
+  </a>
+</div>

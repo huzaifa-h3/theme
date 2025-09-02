@@ -7,73 +7,93 @@
   outline: none;
   list-style-type: none;
 }
+
 body {
   font-family: var(--font-body-family);
-  background-color: var();
-  height: 100vh;
+  background: var(--color-background);
+  background-image: var(--color-background-gradient);
+  color: var(--color-text);
+  height: 100%;
   width: 100%;
   overflow-x: hidden;
+  font-size: var(--font-size-base);
 }
+
 button {
-  background-color: inherit;
+  background: inherit;
   cursor: pointer;
+  font-family: var(--font-body-family);
+  color: var(--color-text);
 }
+
 a {
-  color: inherit;
+  color: var(--color-links);
   cursor: pointer;
 }
+
 main {
   overflow: hidden;
 }
+
 .btn-primary {
-  background-color: black;
-  color: white;
+  background: var(--color-primary-button);
+  color: var(--color-on-primary-button);
+  border: 1px solid var(--color-primary-button-border);
   width: 100%;
-  padding: 0.62rem 0.5rem;
-  transition: background 0.3s linear;
-  border: 1px solid black;
-  font-size: var(--font-size-xs);
-  border-radius: 0;
+  padding: 0.46rem 0.5rem;
+  transition: all 0.3s linear;
+  font-size: var(--font-size-sm);
+  border-radius: 4px;
+  text-align: center;
 }
+
 .btn-primary:hover {
-  background-color: transparent;
-  border: 1px solid black;
-  color: black;
+  background: transparent;
+  border: 1px solid var(--color-primary-button-border);
+  color: var(--color-text);
 }
+
 .btn-secondary {
-  background-color: transparent;
-  border: 1px solid black;
-  color: black;
+  background: var(--color-secondary-button);
+  color: var(--color-on-secondary-button);
+  border: 1px solid var(--color-secondary-button-border);
   width: 100%;
-  padding: 0.62rem 0.5rem;
-  transition: background 0.3s linear;
-  font-size: var(--font-size-xs);
-  border-radius: 0;
+  padding: 0.46rem 0.5rem;
+  transition: all 0.3s linear;
+  font-size: var(--font-size-sm);
+  border-radius: 4px;
+  display: block;
+  text-align: center;
 }
+
 .btn-secondary:hover {
-  background-color: black;
-  color: white;
+  background: var(--color-primary-button);
+  color: var(--color-on-primary-button);
 }
+
 .product-badge {
   font-size: 12px;
+  color: var(--color-accent);
 }
+
 .quantity-selector {
   display: flex;
   align-items: center;
-  border: 1px solid #afafaf;
-  background-color: white;
+  border: 1px solid var(--color-shadow);
+  background: var(--color-background);
   overflow: hidden;
   width: 40%;
+  border-radius: 4px;
 }
 
 .quantity-btn {
   width: 35%;
   height: 40px;
   border: none;
-  background-color: white;
-  color: #6b7280;
+  background: var(--color-background);
+  color: var(--color-text);
   font-size: 13px;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -82,7 +102,7 @@ main {
 }
 
 .quantity-btn:active {
-  background-color: #e5e7eb;
+  background: var(--color-shadow);
 }
 
 .quantity-input {
@@ -91,17 +111,17 @@ main {
   border: none;
   text-align: center;
   font-size: 13px;
-  font-weight: 400;
-  color: #374151;
-  background-color: white;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+  background: var(--color-background);
   outline: none;
 }
 
 .quantity-input:focus {
-  background-color: #f9fafb;
+  background: var(--color-background);
+  filter: brightness(0.98);
 }
 
-/* Remove number input arrows */
 .quantity-input::-webkit-outer-spin-button,
 .quantity-input::-webkit-inner-spin-button {
   -webkit-appearance: none;

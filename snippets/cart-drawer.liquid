@@ -50,63 +50,63 @@
           <p>{{ cart.total_price | money_with_currency }}</p>
         </div>
         <div class="call_to-actions">
-          <a href="/checkout" class="primary-btn">Checkout</a>
-          <a href="{{routes.cart_url}}" class="secondary-btn">View Cart</a>
+          <a href="/checkout" class="btn-primary">Checkout</a>
+          <a href="{{routes.cart_url}}" class="btn-secondary">View Cart</a>
         </div>
       </div>
     {% endif %}
   </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const cartDrawer = document.querySelector(".cart_drawer");
+  document.addEventListener('DOMContentLoaded', () => {
+    const cartDrawer = document.querySelector('.cart_drawer');
 
-  // Listen for remove clicks
-  document.addEventListener("click", (e) => {
-    if (e.target.closest(".cart-drawer__remove")) {
-      e.preventDefault();
-      const btn = e.target.closest(".cart-drawer__remove");
-      const variantId = btn.getAttribute("data-variant-id");
+    // Listen for remove clicks
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.cart-drawer__remove')) {
+        e.preventDefault();
+        const btn = e.target.closest('.cart-drawer__remove');
+        const variantId = btn.getAttribute('data-variant-id');
 
-      fetch("/cart/change.js", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body: JSON.stringify({
-          id: variantId,
-          quantity: 0
+        fetch('/cart/change.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 0,
+          }),
         })
-      })
-        .then((res) => res.json())
-        .then((cart) => {
-          btn.closest(".cart-drawer_item").remove();
+          .then((res) => res.json())
+          .then((cart) => {
+            btn.closest('.cart-drawer_item').remove();
 
-          // update subtotal
-          updateCartSubtotal(cart);
-        })
-        .catch((err) => console.error("Remove failed", err));
+            // update subtotal
+            updateCartSubtotal(cart);
+          })
+          .catch((err) => console.error('Remove failed', err));
+      }
+    });
+
+    function updateCartSubtotal(cart) {
+      const subtotalEl = document.querySelector('.cart-drawer__subtotal p:last-child');
+      if (subtotalEl) {
+        subtotalEl.textContent = (cart.total_price / 100).toLocaleString('en-US', {
+          style: 'currency',
+          currency: cart.currency || money_with_currency,
+        });
+      }
+
+      // if cart empty, show empty message
+      if (cart.item_count === 0) {
+        document.querySelector(
+          '#cart-drawer-items'
+        ).innerHTML = `<div class="empty-cart"><h1>Your cart is empty.</h1></div>`;
+        document.querySelector('.cart-drawer__subtotal')?.remove();
+      }
     }
   });
-
-  function updateCartSubtotal(cart) {
-    const subtotalEl = document.querySelector(".cart-drawer__subtotal p:last-child");
-    if (subtotalEl) {
-      subtotalEl.textContent = (cart.total_price / 100).toLocaleString("en-US", {
-        style: "currency",
-        currency: cart.currency || money_with_currency
-      });
-    }
-
-    // if cart empty, show empty message
-    if (cart.item_count === 0) {
-      document.querySelector("#cart-drawer-items").innerHTML =
-        `<div class="empty-cart"><h1>Your cart is empty.</h1></div>`;
-      document.querySelector(".cart-drawer__subtotal")?.remove();
-    }
-  }
-});
-
 </script>
 <script src="{{'cart-drawer.js' | asset_url }}" defer></script>

@@ -13,7 +13,7 @@
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "FavIcon"
+        "label": "Favicon"
       }
     ]
   },
@@ -28,11 +28,22 @@
       {
         "type": "range",
         "id": "logo_width",
-        "label": "width",
+        "label": "Logo Width",
         "min": 60,
         "max": 200,
         "default": 160,
-        "step": 2
+        "step": 2,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "logo_height",
+        "label": "Logo Height",
+        "min": 20,
+        "max": 100,
+        "default": 60,
+        "step": 2,
+        "unit": "px"
       }
     ]
   },
@@ -42,14 +53,254 @@
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "default": "jost_n4",
+        "default": "space_grotesk_n4",
         "label": "Body Font"
       },
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "jost_n5",
+        "default": "space_grotesk_n5",
         "label": "Heading Font"
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "Body Font Size",
+        "min": 12,
+        "max": 20,
+        "default": 16,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "range",
+        "id": "heading_font_size",
+        "label": "Heading Font Size",
+        "min": 16,
+        "max": 36,
+        "default": 24,
+        "step": 1,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "Background Gradient",
+            "info": "Optional gradient to replace background"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "primary_button",
+            "label": "Primary Button",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "on_primary_button",
+            "label": "Primary Button Text",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_border",
+            "label": "Primary Button Border",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button",
+            "label": "Secondary Button",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "on_secondary_button",
+            "label": "Secondary Button Text",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border",
+            "label": "Secondary Button Border",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "links",
+            "label": "Links",
+            "default": "#1A73E8"
+          },
+          {
+            "type": "color",
+            "id": "shadow",
+            "label": "Shadow",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "accent",
+            "label": "Accent",
+            "default": "#FF6200"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "links",
+          "icons": "text",
+          "primary_button": "primary_button",
+          "on_primary_button": "on_primary_button",
+          "primary_button_border": "primary_button_border",
+          "secondary_button": "secondary_button",
+          "on_secondary_button": "on_secondary_button",
+          "secondary_button_border": "secondary_button_border"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout_width",
+        "label": "Site Width",
+        "options": [
+          {
+            "value": "full",
+            "label": "Full Width"
+          },
+          {
+            "value": "boxed",
+            "label": "Boxed"
+          }
+        ],
+        "default": "boxed"
+      },
+      {
+        "type": "range",
+        "id": "max_width",
+        "label": "Maximum Content Width",
+        "min": 960,
+        "max": 1600,
+        "default": 1200,
+        "step": 10,
+        "unit": "px",
+        "info": "Applies when Boxed layout is selected"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sticky_header",
+        "label": "Enable Sticky Header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "footer_copyright_text",
+        "label": "Copyright Text",
+        "default": "© 2025 Your Store Name. All rights reserved."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show Payment Icons",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "footer_columns",
+        "label": "Number of Footer Columns",
+        "options": [
+          {
+            "value": "1",
+            "label": "1 Column"
+          },
+          {
+            "value": "2",
+            "label": "2 Columns"
+          },
+          {
+            "value": "3",
+            "label": "3 Columns"
+          },
+          {
+            "value": "4",
+            "label": "4 Columns"
+          }
+        ],
+        "default": "3"
+      }
+    ]
+  },
+  {
+    "name": "Product Page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_product_zoom",
+        "label": "Enable Product Image Zoom",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity_selector",
+        "label": "Show Quantity Selector",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_sku",
+        "label": "Show Product SKU",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "product_image_layout",
+        "label": "Product Image Layout",
+        "options": [
+          {
+            "value": "stacked",
+            "label": "Stacked"
+          },
+          {
+            "value": "carousel",
+            "label": "Carousel"
+          },
+          {
+            "value": "grid",
+            "label": "Grid"
+          }
+        ],
+        "default": "carousel"
       }
     ]
   }

@@ -1,0 +1,92 @@
+<style>
+  .article-blog {
+    width: var(--narrow-page-width);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .article-blog-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+  }
+  .article-blog-featured-image {
+    text-align: center;
+    width: 100%;
+  }
+  .article-blog-info {
+    color: #00000099;
+  }
+  .article-blog-featured-image img {
+    height: 450px;
+    width: 100%;
+    object-fit: cover;
+  }
+  .article-blog-title h1 {
+    font-size: var(--font-size-3xl);
+    text-align: center;
+    width: 81%;
+    margin: 0 auto;
+  }
+  .article-blog-content {
+    text-align: justify;
+  }
+  .article-prev-next {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .article-prev-next a {
+    display: flex;
+    align-items: center;
+  }
+  .aricle-link-share{
+    width: 100%;
+  }
+  @media (max-width: 768px) {
+    .article-blog {
+      width: 100%;
+    }
+    .article-blog-title h1 {
+      font-size: var(--font-size-lg);
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="article-blog">
+  <div class="article-blog-wrapper">
+    <div class="article-blog-featured-image">
+      <img src="{{article.image | image_url}}" alt="{{article.image.alt |  escape}}" height="" width="">
+    </div>
+    <div class="article-blog-title">
+      <h1>{{ article.title }}</h1>
+    </div>
+    <div class="article-blog-info">
+      <span>{{ article.published_at | date: '%B %d, %Y' }} . {{ article.author }}</span>
+    </div>
+    <div class="article-blog-content">
+      <p>{{ article.content }}</p>
+    </div>
+    <div class="article-prev-next">
+      {% if blog.previous_article %}
+        <a href="{{blog.previous_article.url}}" class="article-prev">
+          {{ blog.previous_article }}
+          <img src="{{'chevron-left.svg'  |  asset_url}}" height="" width="32"> Prev
+        </a>
+      {% endif %}
+      {% if blog.next_article %}
+        <a href="{{blog.next_article.url}}" class="article-next">
+          Next
+          <img src="{{'chevron-right.svg' |  asset_url }}" height="" width="32" alt=""> {{ blog.next_article }}
+        </a>
+      {% endif %}
+    </div>
+    <div class="aricle-link-share">
+      {% render 'article-share' %}
+    </div>
+  </div>
+</div>

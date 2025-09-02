@@ -15,7 +15,8 @@
 
 <style>
   .collection {
-    width: var(--narrow-page-width);
+    max-width: var(--narrow-page-width);
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
   }
@@ -43,5 +44,10 @@
     text-align: center;
     font-size: var(--font-size-xl);
     font-weight: 500;
+  }
+  @media (max-width: 768px) {
+    .collection {
+      width: 100%;
+    }
   }
 </style>

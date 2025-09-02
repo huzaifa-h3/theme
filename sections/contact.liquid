@@ -1,0 +1,74 @@
+{{ 'contact-us.css' | asset_url | stylesheet_tag }}
+
+<div class="contact-us">
+  {%- form 'contact', id: 'ContactForm', class: 'contact-forms' -%}
+    {% if form.posted_successfully? %}
+      <p class="success-message">Thank you for your message! We'll get back to you soon.</p>
+    {% elsif form.errors %}
+      <p class="error-message">{{ form.errors.translated_fields | join: ', ' }}: {{ form.errors.messages | join: ', ' }}</p>
+    {% endif %}
+
+    <label for="name">Name</label>
+    <input type="text" id="name" name="contact[name]" class="name" placeholder="Enter Your First Name" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="contact[email]" class="email" placeholder="Enter Your Email Here" required>
+
+    <label for="number">Phone Number</label>
+    <input type="tel" id="number" name="contact[phone]" class="phone-number" placeholder="Enter Your Phone Number">
+
+    <label for="message">Message</label>
+    <textarea id="message" name="contact[body]" class="message" placeholder="Message" required></textarea>
+
+    <div class="contact-button">
+      <button class="btn-primary">Send</button>
+    </div>
+  {%- endform -%}
+
+  <div class="contact-map">
+    <iframe
+      src="{{ section.settings.map_embed_url | default: 'https://www.google.com/maps/embed?pb=' }}"
+      width="100%"
+      height="200"
+      style="border:0;"
+      allowfullscreen
+    ></iframe>
+    <div class="contact-details">
+      <div class="detail">
+        <img src="{{ 'icon-location.svg' | asset_url }}" alt="Location Icon" width="45" height="">
+        <h4>Location:</h4>
+        <p>165th St, Jamaica, NY 11</p>
+      </div>
+      <div class="detail">
+        <img src="{{ 'icon-email.svg' | asset_url }}" alt="Location Icon" width="45" height="">
+        <h4>Email:</h4>
+        <p>loremipsum@gmail.com</p>
+      </div>
+      <div class="detail">
+        <img src="{{ 'icon-phone.svg' | asset_url }}" alt="Location Icon" width="45" height="">
+        <h4>Phone:</h4>
+        <p>+1-202-555-0158</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact Form",
+  "settings": [
+    {
+      "type": "url",
+      "id": "map_embed_url",
+      "label": "Google Map Embed URL",
+      "info": "Enter the Google Maps iframe embed URL."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Form",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

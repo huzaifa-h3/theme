@@ -74,36 +74,46 @@
     font-size: var(--font-size-sm);
     padding-top: 4px;
   }
+  .article-description-mobile{
+    display: none;
+  }
   @media (max-width: 768px) {
+    .blogs-layout{
+      width: 100%;
+    }
     .blogs-wrapper {
       flex-direction: column;
-      gap: 30px;
-      align-items: stretch;
+      gap: 20px;
     }
     .categories-sidebar {
       width: 100%;
-      padding: 0 10px;
+      /* padding: 0 10px; */
+    }
+    .article-description-desktop{
+      display: none;
+    }
+    .article-description-mobile{
+      display: block;
     }
     .blogs {
       width: 100%;
     }
     .article {
       gap: 15px;
-      padding: 15px 10px;
+      /* padding: 15px 10px; */
     }
     .article-image {
-      width: 100px; /* Increased from 40px for better visibility */
-      height: 100px; /* Increased from 40px */
-      object-fit: cover; /* Ensures image maintains aspect ratio */
-    }
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
     .article-title {
-      font-size: var(--font-size-md); /* Adjusted for readability */
+      font-size: var(--font-size-md);
     }
     .article-info p {
-      font-size: var(--font-size-sm); /* Kept readable */
+      font-size: var(--font-size-sm);
     }
     .read-more {
-      font-size: var(--font-size-sm); /* Kept consistent */
+      font-size: var(--font-size-sm);
     }
   }
 </style>
@@ -138,7 +148,10 @@
                 <span>Comments {{ article.comments_count }}</span>
               </div>
               <h3 class="article-title">{{ article.title }}</h3>
-              <p class="title-description">{{ article.content | truncatewords: 45 }}</p>
+              <div class="article-description-desktop">
+                {{ article.content | truncatewords: 45 }}
+              </div>
+              <div class="article-description-mobile">{{ article.content | truncatewords: 5 }}</div>
               <span class="read-more">{{ 'Read More' | upcase }}</span>
             </div>
           </a>

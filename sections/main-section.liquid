@@ -1,16 +1,33 @@
 <style>
-    .swiper-grand {
-      overflow: hidden;
-    }
+  .swiper-grand {
+    overflow: hidden;
+  }
   .slider-wrapper {
     width: 100vw;
     height: 100vh;
+  }
+  .swiper-button-next {
+    color: white;
+  }
+  .swiper-button-next:after,
+  .swiper-rtl .swiper-button-prev:after {
+    content: 'next';
+    font-size: 20px;
+  }
+  .swiper-button-prev {
+    color: white;
+  }
+  .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
+    content: 'prev';
+    font-size: 20px;
   }
 </style>
 <div class="horizontal-slide swiper-slide">
   <div class="slider-wrapper">
     {% # Vertical Swiper – triggered when a new BLOCK is added inside the fullpage-slider.liquid section %}
     {% render 'vertical-swiper' %}
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
   </div>
 </div>
 
@@ -26,15 +43,30 @@
 
       const grandWrapper = document.createElement('div');
       grandWrapper.className = 'swiper-grand';
-      grandWrapper.appendChild(wrapper);
-      document.body.prepend(grandWrapper);
-    }
 
-    const swiper1 = new Swiper('.swiper-grand', {
-      keyboard: {
-        enabled: true,
-      },
-    });
+      // arrows yahin inject karo
+      const prev = document.createElement('div');
+      prev.className = 'swiper-button-prev';
+      const next = document.createElement('div');
+      next.className = 'swiper-button-next';
+
+      grandWrapper.appendChild(wrapper);
+      wrapper.appendChild(prev);
+      wrapper.appendChild(next);
+
+      document.body.prepend(grandWrapper);
+
+      // ab swiper init karo
+      new Swiper('.swiper-grand', {
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        keyboard: {
+          enabled: true,
+        },
+      });
+    }
   });
 </script>
 
