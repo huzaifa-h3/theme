@@ -46,6 +46,7 @@
   position: absolute;
   top: 22%;
   right: 0;
+      border: none;
 }
 .footer__grid > ul:nth-child(3) {
   text-align: right;

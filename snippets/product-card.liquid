@@ -33,17 +33,19 @@
       {% endif %}
     </div>
     <div class="product-image-container">
-      {%- if product.images.size > 1 -%}
+      {% if product.images.size > 1 %}
         <div class="product-swiper-{{ product.id }} swiper">
           <div class="swiper-wrapper">
             {% for image in product.images %}
               <div class="swiper-slide product_images">
-                {{
-                  image
-                  | image_url: width: 300, height: 300
-                  | image_tag: loading: 'lazy', class: 'product_image', alt: product.title
-                  | escape
-                }}
+                <img
+                  src="{{ image | image_url }}"
+                  alt="{{ product.title | escape }}"
+                  class="product_image"
+                  loading="lazy"
+                  height=""
+                  width=""
+                >
                 {% if product.compare_at_price_max > product.price %}
                   <div class="product_on-sale product-badge">-{{ discount_percentage }}%</div>
                 {% endif %}
@@ -55,17 +57,31 @@
           </div>
         </div>
       {% else %}
-        {%- if product.featured_image -%}
-          {{
-            product.featured_image
-            | image_url: width: 300, height: 300
-            | image_tag: loading: 'lazy', class: 'product_image', alt: product.title
-            | escape
-          }}
+        {% if product.featured_image %}
+          <div class="product-swiper-single swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide product_images">
+                <img
+                  src="{{ product.featured_image | image_url }}"
+                  alt="{{ product.title | escape }}"
+                  class="product_image"
+                  loading="lazy"
+                  height=""
+                  width=""
+                >
+                {% if product.compare_at_price_max > product.price %}
+                  <div class="product_on-sale product-badge">-{{ discount_percentage }}%</div>
+                {% endif %}
+                {% if product_availability == false %}
+                  <div class="product_soldout product-badge">SOLD</div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
         {% else %}
           {{ 'no-image' | placeholder_svg_tag: 'product_image' }}
         {% endif %}
-      {%- endif -%}
+      {% endif %}
     </div>
 
     <!-- product info -->

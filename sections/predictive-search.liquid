@@ -39,13 +39,13 @@
     {%- endif -%}
 
     {% if predictive_search.resources.articles.size > 0 %}
-      <div class="predictive-search_articles">
-        <h3>Articles</h3>
-        <ul class="predictive-search_list" role="listbox">
+      <div class="predictive-search__articles">
+        <h3 class="predictive-search__heading">Articles</h3>
+        <ul class="predictive-search__list" role="listbox">
           {% for article in predictive_search.resources.articles limit: 3 %}
-            <li class="predictive-search_item" role="option">
-              <a href="{{article.url}}">
-                <span>{{article.title}}</span>
+            <li class="predictive-search__item" role="option">
+              <a href="{{ article.url }}" class="predictive-search__link">
+                <span class="predictive-search__title">{{ article.title }}</span>
               </a>
             </li>
           {% endfor %}
@@ -54,13 +54,13 @@
     {% endif %}
     
     {% if predictive_search.resources.pages.size > 0 %}
-      <div class="predictive-search_articles">
+      <div class="predictive-search__pages">
         <h3 class="predictive-search__heading">Pages</h3>
         <ul class="predictive-search__list" role="listbox">
           {% for page in predictive_search.resources.pages %}
           <li class="predictive-search__item" role="option">
-            <a href="{{page.url}}">
-             <span class="predictive-search__title">{{page.title}}</span>
+            <a href="{{ page.url }}" class="predictive-search__link">
+             <span class="predictive-search__title">{{ page.title }}</span>
             </a>
           </li>
         {% endfor %}
@@ -69,21 +69,20 @@
     {% endif %}
 
     {% if predictive_search.resources.queries.size > 0 %}
-  <div class="predictive-search__queries">
-    <h3 class="predictive-search__heading">Suggestions</h3>
-    <ul class="predictive-search__list" role="listbox">
-      {% for query in predictive_search.resources.queries %}
-        <li class="predictive-search__item" role="option">
-          <a href="{{ query.url }}" >
-            <span class="predictive-search__title">{{ query.text }}</span>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
+      <div class="predictive-search__queries">
+        <h3 class="predictive-search__heading">Suggestions</h3>
+        <ul class="predictive-search__list" role="listbox">
+          {% for query in predictive_search.resources.queries %}
+            <li class="predictive-search__item" role="option">
+              <a href="{{ query.url }}" class="predictive-search__link">
+                <span class="predictive-search__title">{{ query.text }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
 
-        
     {%- if predictive_search.resources.products.size == 0 and predictive_search.resources.collections.size == 0 -%}
       <div class="predictive-search__no-results">
         <p>No results found for "{{ predictive_search.terms }}"</p>
@@ -91,7 +90,7 @@
     {%- endif -%}
   {%- endif -%}
 </div>
-<script src="{{'search-overlay.js' |  asset_url}}" defer></script>
+<script src="{{ 'search-overlay.js' | asset_url }}" defer></script>
 
 <style>
   .predictive-search__results {
@@ -99,22 +98,26 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: white;
-    border: 1px solid #ddd;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
     border-top: none;
     max-height: 400px;
     overflow-y: auto;
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 8px 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
   .predictive-search__heading {
-    padding: 12px 20px 8px;
+    padding: 12px 20px;
     margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: #666;
-    border-bottom: 1px solid #eee;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .predictive-search__list {
@@ -133,43 +136,56 @@
     padding: 12px 20px;
     text-decoration: none;
     color: #333;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease;
   }
   
   .predictive-search__link:hover {
-    background-color: #f8f8f8;
+    background-color: #f8f9fa;
   }
   
   .predictive-search__image {
     margin-right: 12px;
     flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 4px;
   }
   
   .predictive-search__image img {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 4px;
   }
   
   .predictive-search__content {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
   }
   
   .predictive-search__title {
+    font-size: 14px;
     font-weight: 500;
-    margin-bottom: 4px;
+    color: #222;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
   }
   
   .predictive-search__price {
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
+    font-weight: 400;
   }
   
   .predictive-search__no-results {
     padding: 20px;
     text-align: center;
     color: #666;
+    font-size: 14px;
   }
 </style>

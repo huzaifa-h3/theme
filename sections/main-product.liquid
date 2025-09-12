@@ -7,7 +7,7 @@
 <div class="main-product">
   <div class="product-wrapper">
     <div class="product-media">
-      <div class="desktop-product_images">
+      <div class=" {% if product.featured_image and product.images.size == 1 %}desktop-product_image{% else %} desktop-product_images {% endif %}">
         {% for media in product.media %}
           {%- render 'product-media', media: media -%}
         {% endfor %}
@@ -154,12 +154,12 @@
             </button>
           </div>
           <a
-          {% unless product_avalaiblity %}
-            href="#"
-            class="disabled btn-secondary"
-          {% endunless %}
-          class="btn-secondary"
-          href="/checkout"
+            {% unless product_avalaiblity %}
+              href="#"
+              class="disabled btn-secondary"
+            {% endunless %}
+            class="btn-secondary"
+            href="/checkout"
           >
             {% if product_avalaiblity %}
               Buy Now

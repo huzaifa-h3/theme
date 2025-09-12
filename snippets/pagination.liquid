@@ -1,0 +1,54 @@
+<nav role="navigation" style="display: flex; justify-content: center; margin: 2rem 0;">
+  {% if pagination.previous %}
+    <a
+      href="{{pagination.previous.url}}"
+      style="transform: rotate(-90deg);"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </a>
+  {% endif %}
+  {% for part in pagination.parts %}
+    {% if part.is_link %}
+      <a
+        href="{{part.url}}"
+        style="padding-left: 1rem; padding-right: 1rem; font-size: 1rem;"
+      >
+        {{ part.title -}}
+      </a>
+    {% else %}
+      <span style="padding-left: 0.75rem; padding-right: 0.75rem; font-size: 1.125rem;">
+        {{- part.title -}}
+      </span>
+    {% endif %}
+  {% endfor %}
+  {% if pagination.next %}
+    <a
+      href="{{pagination.next.url}}"
+      style="transform: rotate(90deg);"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </a>
+  {% endif %}
+</nav>

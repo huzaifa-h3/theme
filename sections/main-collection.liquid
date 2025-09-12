@@ -1,13 +1,20 @@
 {% if collection.products_count > 0 %}
   <div class="collection">
     <h1 class="collection-title">{{ collection.title }}</h1>
-    <div class="collection-products__grid">
-      {% for product in collection.products %}
-        <div class="product-{{product.id}}">
-          {% render 'product-card', product: product %}
+    {% paginate collection.products by 10 %}
+      <div class="collection-products__grid">
+        {% for product in collection.products %}
+          <div class="product-{{product.id}}">
+            {% render 'product-card', product: product %}
+          </div>
+        {% endfor %}
+      </div>
+      {% if paginate.pages > 1 %}
+        <div class="pagination-wrapper">
+          {% render 'pagination', pagination: paginate %}
         </div>
-      {% endfor %}
-    </div>
+      {% endif %}
+    {% endpaginate %}
   </div>
 {%- else -%}
   <h1 class="result-not_found">No Products Found!</h1>
@@ -45,6 +52,7 @@
     font-size: var(--font-size-xl);
     font-weight: 500;
   }
+
   @media (max-width: 768px) {
     .collection {
       width: 100%;

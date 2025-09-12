@@ -1,7 +1,7 @@
 {% case media.media_type %}
   {% when 'image' %}
     <img
-      src="{{ media | image_url: width: 600, height: 550 }}"
+      src="{{ media | image_url}}"
       alt="{{ media.alt | escape }}"
       class="product__image {{ class }}"
       height=""
@@ -14,7 +14,7 @@
     <video
       class="product__video {{ class }}"
       controls
-      poster="{{ media.preview_image | image_url: width: 600, height: 550 }}"
+      poster="{{ media.preview_image | image_url }}"
     >
       <source src="{{ media.sources[0].url |  image_url  }}" type="{{ media.sources[0].mime_type }}">
       Your browser does not support the video tag.

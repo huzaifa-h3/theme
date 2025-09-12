@@ -42,13 +42,16 @@
   align-items: center;
   gap: 8px;
 }
+.qty-and-discount div span{
+  color: white !important;
+}
 .qty-and-discount span {
   font-size: var(--font-size-xs);
 }
 .discount {
   padding: 5px 8px;
   background-color: #ef2d2d;
-  color: white;
+  color: white !important;
   font-size: 12px;
   border-radius: 3px;
   width: fit-content;
@@ -57,7 +60,7 @@
 .qty-left-badge {
   padding: 5px 8px;
   background-color: gray;
-  color: white;
+  color: white !important;
   font-size: 12px;
   border-radius: 3px;
   width: fit-content;

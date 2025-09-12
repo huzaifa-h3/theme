@@ -35,10 +35,14 @@
   position: relative;
 }
 .product_prices span {
-  font-size: 13px;
+  font-size: 12px;
 }
 .product_prices p {
   color: #ef2d2d;
+  font-size: 15.5px;
+}
+.product__info p {
+  font-size: 15.5px;
 }
 .product_on-sale {
   position: absolute;
@@ -65,7 +69,7 @@
   opacity: 0;
   width: fit-content;
 }
-.product-vendor span{
+.product-vendor span {
   color: rgb(105, 105, 105);
   font-size: var(--font-size-xs);
   margin: 8px 0;
@@ -89,10 +93,10 @@
 }
 .swiper {
   width: 100%;
-  height: 280px;
+  height: 100%;
 }
-@media (max-width: 768px){
-  .product_image{
+@media (max-width: 768px) {
+  .product_image {
     object-fit: contain;
   }
 }
