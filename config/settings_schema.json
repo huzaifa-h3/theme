@@ -149,7 +149,7 @@
             "type": "color",
             "id": "links",
             "label": "Links",
-            "default": "#1A73E8"
+            "default": "#121212"
           },
           {
             "type": "color",
@@ -161,7 +161,7 @@
             "type": "color",
             "id": "accent",
             "label": "Accent",
-            "default": "#FF6200"
+            "default": "#000000"
           }
         ],
         "role": {

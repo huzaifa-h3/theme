@@ -53,8 +53,8 @@
       {% comment %} Product Price {% endcomment %}
       <div class="product-price">
         {% if product.compare_at_price_max > product.price %}
-          <span>{{ product.compare_at_price_max | money_with_currency }}</span>
           <p class="discounted-price">{{ product.price | money_with_currency }}</p>
+          <span>{{ product.compare_at_price_max | money_with_currency }}</span>
         {% else %}
           <p>{{ product.price | money_with_currency }}</p>
         {% endif %}

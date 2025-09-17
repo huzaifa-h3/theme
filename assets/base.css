@@ -84,6 +84,7 @@ main {
   overflow: hidden;
   width: 40%;
   border-radius: 4px;
+  padding: 0 4px;
 }
 
 .quantity-btn {
@@ -131,6 +132,6 @@ main {
 .quantity-input[type="number"] {
   -moz-appearance: textfield;
 }
-summary{
-    cursor: pointer; 
+summary {
+  cursor: pointer;
 }

@@ -23,6 +23,7 @@
 .product_title {
   padding: 8px 0;
   font-size: var(--font-size-sm);
+  text-align: left;
   font-weight: 500;
 }
 .compare_at_price {
@@ -33,6 +34,7 @@
   align-items: flex-end;
   gap: 10px;
   position: relative;
+  text-align: left;
 }
 .product_prices span {
   font-size: 12px;
@@ -43,6 +45,7 @@
 }
 .product__info p {
   font-size: 15.5px;
+  text-align: left;
 }
 .product_on-sale {
   position: absolute;
@@ -63,33 +66,39 @@
 .product_quick-actions {
   position: absolute;
   z-index: 99;
-  bottom: 97px;
+  bottom: 103px;
   right: 10px;
   transition: 0.5s ease-in-out;
   opacity: 0;
   width: fit-content;
 }
+.product-vendor {
+  text-align: left;
+}
 .product-vendor span {
   color: rgb(105, 105, 105);
   font-size: var(--font-size-xs);
   margin: 8px 0;
+  width: 100%;
 }
 .product__card:hover .product_quick-actions {
   opacity: 1;
 }
 .quick_add {
   font-size: 13px;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #000;
   backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(3px);
   border: 1px solid #ffffff;
   transition: 0.3s ease-in-out;
-  width: 60px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
   padding-top: 2px;
-  border-radius: 20px;
+  border-radius: 50%;
   margin: auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .swiper {
   width: 100%;

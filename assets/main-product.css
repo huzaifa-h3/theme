@@ -61,10 +61,10 @@
   padding: 5px 8px;
   background-color: gray;
   color: white !important;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   border-radius: 3px;
   width: fit-content;
-}
+} 
 .product-price {
   display: flex;
   align-items: flex-end;
@@ -78,7 +78,7 @@
   color: #ef2d2d;
 }
 .product-price p {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-base);
 }
 .qty-add-to-cart {
   display: flex;

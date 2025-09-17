@@ -1,50 +1,34 @@
 <style>
   .search-page {
+    max-width: var(--narrow-page-width);
     width: 100%;
+    margin: 0 auto;
     text-align: center;
     overflow: hidden;
     padding: 0 20px;
   }
-  .search__result {
+  .search__result{
+    margin-top: 30px;
+    font-size: var(--font-size-xl);
     text-align: left;
-    font-weight: 500;
   }
+
   .search-results-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 30px;
+    gap: 20px;
     width: 100%;
     margin-top: 20px;
   }
 
-  .search-result-card {
-    text-align: center;
-  }
-
-  .search-product_image {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    margin-bottom: 15px;
-  }
-
-  .search-result-card p {
-    margin: 8px 0;
-    line-height: 1.4;
-    text-align: left;
-  }
-
-  .search-result-card p:first-of-type {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 8px;
-    text-align: left;
-  }
-
-  .search-result-card p:last-of-type {
-    font-size: 16px;
-    color: #000;
-    text-align: left;
+  @media (max-width: 768px) {
+    .search-results-grid {
+      grid-template-columns: repeat(2, 1fr); /* ✅ 2 cards on mobile */
+      gap: 15px;
+    }
+    .search-results-grid:has(> div:only-child) {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 
@@ -55,30 +39,31 @@
     {% if search.results_count > 0 %}
       <div class="search-results-grid">
         {% for item in search.results %}
-          <div class="search-result-card">
-            <a href="{{ item.url }}" class="search__item">
-              {% if item.object_type == 'product' %}
-                {{
-                  item.featured_image
-                  | image_url: width: 300
-                  | image_tag: class: 'search-product_image', alt: item.title
-                }}
-                <p>{{ item.title | truncate: 35 }}</p>
-                <p>{{ item.price | money_with_currency }}</p>
-
-              {% elsif item.object_type == 'collection' %}
+          {% if item.object_type == 'product' %}
+            <div class="product-{{ item.id }}">
+              {% render 'product-card', product: item %}
+            </div>
+          {% elsif item.object_type == 'collection' %}
+            <div class="search-result-card">
+              <a href="{{ item.url }}">
                 {{ item.image | image_url: width: 300 | image_tag }}
                 <p>Collection: {{ item.title }}</p>
-
-              {% elsif item.object_type == 'article' %}
+              </a>
+            </div>
+          {% elsif item.object_type == 'article' %}
+            <div class="search-result-card">
+              <a href="{{ item.url }}">
                 <p>Article: {{ item.title }}</p>
                 <p>{{ item.excerpt | strip_html | truncate: 100 }}</p>
-
-              {% else %}
+              </a>
+            </div>
+          {% else %}
+            <div class="search-result-card">
+              <a href="{{ item.url }}">
                 <p>{{ item.title }}</p>
-              {% endif %}
-            </a>
-          </div>
+              </a>
+            </div>
+          {% endif %}
         {% endfor %}
       </div>
     {% else %}
