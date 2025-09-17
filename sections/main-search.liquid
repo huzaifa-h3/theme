@@ -8,7 +8,7 @@
     padding: 0 20px;
   }
   .search__result{
-    margin-top: 30px;
+    margin: 30px 0;
     font-size: var(--font-size-xl);
     text-align: left;
   }
@@ -34,6 +34,9 @@
 
 <div class="search-page">
   <h1 class="search__result">Results</h1>
+   <div class="collection-flex">
+      {% render 'list-filter' %}
+    </div>
 
   {% if search.performed %}
     {% if search.results_count > 0 %}

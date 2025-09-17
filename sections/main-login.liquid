@@ -1,1 +1,8 @@
-<h1>Login</h1>
+{{ 'main-login.css' | asset_url | stylesheet_tag }}
+
+<div class="login">
+  <div class="login-wrapper">
+    <h1 class="login-title">Login to your account</h1>
+    <a href="{{ routes.account_register_url }}">Don't an account? <span>Signup</span></a>
+  </div>
+</div>

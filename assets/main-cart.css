@@ -1,7 +1,8 @@
 .cart {
-  width: var(--narrow-page-width);
+  max-width: var(--narrow-page-width);
+    width: 100%;
   margin: 0 auto;
-  padding: 0 15px; /* Add padding for mobile */
+  padding: 0 15px;
   box-sizing: border-box;
 }
 
@@ -14,14 +15,14 @@
 }
 
 .cart-items h1 {
-  font-size: 1.2rem;
+  font-size: var(--font-size-xl);
   font-weight: 500;
 }
 
 th {
   padding-bottom: 10px;
   font-weight: 500;
-  font-size: 1rem; /* Slightly smaller for mobile */
+  font-size: 1rem;
 }
 
 tbody tr {

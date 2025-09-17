@@ -1,23 +1,213 @@
+{% comment %} Mobile filter sidebar for Shopify theme {% endcomment %}
 <div class="filters-overlay"></div>
 <div class="filters">
-  <h4>Filters</h4>
+  <div class="filters-header">
+    <h4>Filters</h4>
+    <button class="filters-close" aria-label="Close filters">
+      <img src="{{ 'icon-cross.svg' | asset_url }}" height="12" width="12" alt="Close">
+    </button>
+  </div>
+  <form id="CollectionFiltersFormMobile">
+    {% for filter in collection.filters %}
+      <div class="filter-box-mobile">
+        <details>
+          <summary aria-label="{{ filter.label }}">{{ filter.label }}</summary>
+          <ul class="filter-underlist-mobile" role="listbox" aria-label="{{ filter.label }}">
+            {% for value in filter.values %}
+              <li class="filter-mobile">
+                <input
+                  type="checkbox"
+                  name="{{ filter.param_name }}"
+                  value="{{ value.value }}"
+                  id="mobile-{{ filter.param_name }}-{{ forloop.index }}"
+                  hidden
+                  {% if value.active %}
+                    checked
+                  {% endif %}
+                >
+                {% if value.active %}
+                  <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+                {% endif %}
+                <label for="mobile-{{ filter.param_name }}-{{ forloop.index }}">{{ value.label }}</label>
+              </li>
+            {% endfor %}
+          </ul>
+        </details>
+        {% if filter.active_values.size > 0 %}
+          <button class="clearFilter-mobile" type="button">
+            Clear <img src="{{ 'icon-cross.svg' | asset_url }}" height="12" width="12" alt="Clear">
+          </button>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <!-- Sort Section -->
+    <div class="sort-box-mobile">
+      <details>
+        <summary aria-label="Sort products">Sort</summary>
+        <ul class="sort-underlist-mobile" role="listbox" aria-label="Sort options">
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="manual"
+                hidden
+                {% if collection.sort_by == 'manual' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'manual' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Featured
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="best-selling"
+                hidden
+                {% if collection.sort_by == 'best-selling' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'best-selling' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Best Selling
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="title-ascending"
+                hidden
+                {% if collection.sort_by == 'title-ascending' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'title-ascending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Alphabetically, A-Z
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="title-descending"
+                hidden
+                {% if collection.sort_by == 'title-descending' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'title-descending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Alphabetically, Z-A
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="price-ascending"
+                hidden
+                {% if collection.sort_by == 'price-ascending' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'price-ascending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Price, low to high
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="price-descending"
+                hidden
+                {% if collection.sort_by == 'price-descending' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'price-descending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Price, high to low
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="created-ascending"
+                hidden
+                {% if collection.sort_by == 'created-ascending' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'created-ascending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Date, old to new
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                type="radio"
+                name="sort_by"
+                value="created-descending"
+                hidden
+                {% if collection.sort_by == 'created-descending' %}
+                  checked
+                {% endif %}
+              >
+              {% if collection.sort_by == 'created-descending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
+              Date, new to old
+            </label>
+          </li>
+        </ul>
+      </details>
+    </div>
+  </form>
+  <div class="filters-actions">
+    <button type="button" class="apply-filter-btn">Apply Filter</button>
+    <button type="button" class="clear-all-btn">Clear All</button>
+  </div>
 </div>
 
 <style>
   .filters {
-    max-width: var(--sidebar-width);
+    max-width: var(--sidebar-width, 300px);
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
     right: 0;
     transform: translateX(100%);
-    transition: 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     z-index: 9999;
     background-color: white;
     display: flex;
     flex-direction: column;
     padding: 15px 25px;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   }
   .filters.open {
     transform: translateX(0);
@@ -42,30 +232,169 @@
     opacity: 1;
     pointer-events: auto;
   }
+  .filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+  }
+  .filters-header h4 {
+    margin: 0;
+    font-size: var(--font-size-md, 18px);
+    font-weight: 600;
+  }
+  .filters-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .filter-box-mobile {
+    margin-bottom: 20px;
+  }
+  .filter-box-mobile details {
+    font-size: var(--font-size-xs, 14px);
+  }
+  .filter-underlist-mobile {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 5px;
+    list-style: none;
+  }
+  .filter-mobile {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+  }
+  .filter-mobile label {
+    margin-left: 5px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .clearFilter-mobile {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: var(--font-size-xs, 14px);
+    border: none;
+    padding: 5px 10px;
+    background: none;
+    cursor: pointer;
+    margin-top: 10px;
+    color: #007bff;
+  }
+  .clearFilter-mobile img {
+    border: 1px solid;
+    border-radius: 50%;
+  }
+  .sort-box-mobile {
+    margin-bottom: 20px;
+  }
+  .sort-underlist-mobile {
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    margin-top: 5px;
+    list-style: none;
+  }
+  .sort-underlist-mobile li {
+    padding: 5px 0;
+  }
+  .sort-underlist-mobile label {
+    cursor: pointer;
+  }
+  .filters-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+  }
+  .apply-filter-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: var(--font-size-xs, 14px);
+    cursor: pointer;
+  }
+  .clear-all-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: var(--font-size-xs, 14px);
+    cursor: pointer;
+  }
+  .apply-filter-btn:hover, .clear-all-btn:hover {
+    opacity: 0.9;
+  }
 </style>
 
 <script>
-  const filter = document.querySelector('.filters');
-  const filtersOverlay = document.querySelector('.filters-overlay');
-  const filterButton = document.querySelector('.filter-sidebar-trigger');
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterSidebar = document.querySelector('.filters');
+    const filtersOverlay = document.querySelector('.filters-overlay');
+    const filterButton = document.querySelector('.filter-sidebar-trigger');
+    const closeButton = document.querySelector('.filters-close');
+    const mobileForm = document.querySelector('#CollectionFiltersFormMobile');
 
-  const openFilters = () => {
-    filter.classList.add('open');
-    filter.classList.remove('close');
-    filtersOverlay.classList.add('active');
-  };
+    const openFilters = () => {
+      filterSidebar.classList.add('open');
+      filterSidebar.classList.remove('close');
+      filtersOverlay.classList.add('active');
+    };
 
-  const closeFilters = () => {
-    filter.classList.add('close');
-    filter.classList.remove('open');
-    filtersOverlay.classList.remove('active');
-  };
+    const closeFilters = () => {
+      filterSidebar.classList.add('close');
+      filterSidebar.classList.remove('open');
+      filtersOverlay.classList.remove('active');
+    };
 
-  filterButton.addEventListener('click', openFilters);
-  filtersOverlay.addEventListener('click', closeFilters);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeFilters();
-    }
+    const applyFilters = () => {
+      const formData = new FormData(mobileForm);
+      const url = new URL(window.location.href);
+      url.search = new URLSearchParams(formData).toString();
+      window.location.href = url.toString();
+    };
+
+    filterButton.addEventListener('click', openFilters);
+    closeButton.addEventListener('click', closeFilters);
+    filtersOverlay.addEventListener('click', closeFilters);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeFilters();
+      }
+    });
+
+    // Handle filter changes
+    mobileForm.addEventListener('change', applyFilters);
+
+    // Clear individual filter
+    document.querySelectorAll('.clearFilter-mobile').forEach(button => {
+      button.addEventListener('click', () => {
+        const filterBox = button.closest('.filter-box-mobile');
+        const inputs = filterBox.querySelectorAll('input[type="checkbox"]');
+        inputs.forEach(input => input.checked = false);
+        applyFilters();
+      });
+    });
+
+    // Clear all filters
+    document.querySelector('.clear-all-btn').addEventListener('click', () => {
+      mobileForm.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
+        input.checked = false;
+      });
+      applyFilters();
+    });
+
+    // Apply filter button
+    document.querySelector('.apply-filter-btn').addEventListener('click', applyFilters);
   });
 </script>

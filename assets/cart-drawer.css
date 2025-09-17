@@ -18,7 +18,7 @@
   padding: 20px;
   border-bottom: 1px solid #e5e5e5;
   position: relative;
-  flex-shrink: 0;
+  flex-shrink: 0; 
 }
 .cart-drawer-title {
   font-size: 24px;
@@ -67,7 +67,7 @@
   padding-right: 30px;
 }
 .cart-drawer_tile-variant h3 {
-  font-size: var(--font-siz-sm);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   margin: 0 0 8px 0;
   line-height: 1.3;

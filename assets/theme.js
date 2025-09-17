@@ -1,15 +1,8 @@
-function decreaseQuantity(button) {
-  const input = button.parentElement.querySelector('.quantity-input');
-  const currentValue = parseInt(input.value);
-  if (currentValue > 1) {
-    input.value = currentValue - 1;
+document.addEventListener("click", function (e) {
+  if (e.target.matches(".quantity-btn--plus")) {
+    increaseQuantity(e.target);
   }
-}
-
-function increaseQuantity(button) {
-  const input = button.parentElement.querySelector('.quantity-input');
-  const currentValue = parseInt(input.value);
-  if (currentValue < 99) {
-    input.value = currentValue + 1;
+  if (e.target.matches(".quantity-btn--minus")) {
+    decreaseQuantity(e.target);
   }
-}
+});

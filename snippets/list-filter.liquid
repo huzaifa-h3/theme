@@ -1,7 +1,7 @@
 {{ 'list-filter.css' | asset_url | stylesheet_tag }}
 
 <div class="list-filter">
-  <div class="available-filters">
+  <div class="available-filters-desktop">
     <form id="CollectionFiltersForm">
       {% for filter in collection.filters %}
         <div class="filter-box">
@@ -15,10 +15,14 @@
                     name="{{ filter.param_name }}"
                     value="{{ value.value }}"
                     id="{{ filter.param_name }}-{{ forloop.index }}"
+                    hidden
                     {% if value.active %}
                       checked
                     {% endif %}
                   >
+                  {% if value.active %}
+                    <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+                  {% endif %}
                   <label for="{{ filter.param_name }}-{{ forloop.index }}">{{ value.label }}</label>
                 </li>
               {% endfor %}
@@ -37,6 +41,11 @@
     </form>
   </div>
 
+  <div class="available-filters-mobile">
+    <button class="filter-sidebar-trigger">
+      <img src="{{ 'icon-filter.svg' | asset_url }}" height="auto" width="18">
+    </button>
+  </div>
   <div class="sort-filter">
     <form id="CollectionSortForm">
       <details>
@@ -57,10 +66,14 @@
                 type="radio"
                 name="sort_by"
                 value="manual"
+                hidden
                 {% if collection.sort_by == 'manual' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'manual' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Featured</label
             >
           </li>
@@ -70,10 +83,14 @@
                 type="radio"
                 name="sort_by"
                 value="best-selling"
+                hidden
                 {% if collection.sort_by == 'best-selling' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'best-selling' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Best Selling</label
             >
           </li>
@@ -83,10 +100,14 @@
                 type="radio"
                 name="sort_by"
                 value="title-ascending"
+                hidden
                 {% if collection.sort_by == 'title-ascending' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'title-ascending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Alphabetically, A-Z</label
             >
           </li>
@@ -96,10 +117,14 @@
                 type="radio"
                 name="sort_by"
                 value="title-descending"
+                hidden
                 {% if collection.sort_by == 'title-descending' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'title-descending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Alphabetically, Z-A</label
             >
           </li>
@@ -109,10 +134,14 @@
                 type="radio"
                 name="sort_by"
                 value="price-ascending"
+                hidden
                 {% if collection.sort_by == 'price-ascending' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'price-ascending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Price, low to high</label
             >
           </li>
@@ -122,10 +151,14 @@
                 type="radio"
                 name="sort_by"
                 value="price-descending"
+                hidden
                 {% if collection.sort_by == 'price-descending' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'price-descending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Price, high to low</label
             >
           </li>
@@ -135,10 +168,14 @@
                 type="radio"
                 name="sort_by"
                 value="created-ascending"
+                hidden
                 {% if collection.sort_by == 'created-ascending' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'created-ascending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Date, old to new</label
             >
           </li>
@@ -148,10 +185,14 @@
                 type="radio"
                 name="sort_by"
                 value="created-descending"
+                hidden
                 {% if collection.sort_by == 'created-descending' %}
                   checked
                 {% endif %}
               >
+              {% if collection.sort_by == 'created-descending' %}
+                <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+              {% endif %}
               Date, new to old</label
             >
           </li>
@@ -160,5 +201,5 @@
     </form>
   </div>
 </div>
-
+{% render 'list-filter-mobile' %}
 <script src="{{ 'list-filter.js' | asset_url }}" defer></script>

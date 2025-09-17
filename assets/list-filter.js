@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const filtersForm = document.getElementById("CollectionFiltersForm");
+  const sortForm = document.getElementById("CollectionSortForm");
   const details = document.querySelectorAll("#CollectionFiltersForm details");
 
-  //filter box toggle
+  // Filter box toggle
   details.forEach((detail) => {
     detail.addEventListener("toggle", () => {
       if (detail.open) {
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    //clear filter
+  // Clear filter
   document.querySelectorAll(".clearFilter").forEach((btn) => {
     btn.addEventListener("click", () => {
       const filterBox = btn.closest(".filter-box");
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll('#CollectionSortForm input[name="sort_by"]')
     .forEach((radio) => {
       radio.addEventListener("change", () => {
-        filtersForm.submit();
+        sortForm.submit(); 
       });
     });
 });

@@ -1,102 +1,117 @@
 .list-filter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 2px;
-    margin-bottom: 20px;
-    width: 100%;
-    border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 2px;
+  margin-bottom: 20px;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+}
+.available-filters-desktop {
+  padding-bottom: 0px;
+  width: 100%;
+}
+.available-filters-mobile {
+  display: none;
+}
+#CollectionFiltersForm {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 13px;
+}
+.filter-box {
+  display: flex;
+  align-items: center;
+}
+details {
+  position: relative;
+  width: 100%;
+  font-size: var(--font-size-xs);
+}
+.filter-underlist {
+  padding: 15px;
+  background: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: fit-content;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 999;
+  min-width: 150px;
+  width: 100%;
+  left: 1%;
+  top: 25.5px;
+}
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.filter label {
+  margin-left: 5px;
+  width: 100%;
+  padding: 3px 0;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+}
+.sort-filter {
+  width: auto;
+  position: relative;
+  display: flex;
+  gap: 5px;
+}
+.sort-filter details ul {
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  height: fit-content;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 9999;
+  width: 220px;
+  right: 0;
+  top: auto;
+}
+.sort li label {
+  padding: 3px 0;
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.summary-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+.summary-bar span {
+  font-size: var(--font-size-xs);
+  color: gray;
+}
+.clearFilter {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--font-size-xs);
+  border: none;
+  padding: 0px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.clearFilter img {
+  border: 1px solid;
+  border-radius: 50%;
+}
+@media (max-width: 768px) {
+  .available-filters-desktop {
+    display: none;
   }
-  .available-filters {
-    padding-bottom: 0px;
-    width: 100%;
+  .available-filters-mobile {
+    display: block;
   }
-  #CollectionFiltersForm {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 15px;
-  }
-  .filter-box {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  details {
-    position: relative;
-    width: 100%;
-    font-size: var(--font-size-xs);
-  }
-  .filter-underlist {
-    padding: 15px;
-    background: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    height: fit-content;
-    border-radius: 10px;
-    position: absolute;
-    z-index: 999;
-    min-width: 190px;
-    width: 100%;
-    right: auto;
-    top: auto;
-  }
-  .filter {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  .filter label {
-    margin-left: 5px;
-    width: 100%;
-    padding: 3px 0;
-    font-size: var(--font-size-xs);
-  }
-  .sort-filter {
-    width: auto;
-    position: relative;
-    display: flex;
-    gap: 5px;
-  }
-  .sort-filter details ul {
-    padding: 20px;
-    background: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    height: fit-content;
-    border-radius: 10px;
-    position: absolute;
-    z-index: 999;
-    width: 220px;
-    right: 0;
-    top: auto;
-  }
-  .sort li label {
-    padding: 3px 0;
-    font-size: var(--font-size-xs);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .summary-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
-  }
-  .summary-bar span {
-    font-size: var(--font-size-xs);
-    color: gray;
-  }
-  .clearFilter {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    font-size: var(--font-size-xs);
+  .available-filters-mobile button {
     border: none;
-    padding: 0px;
-    font-weight: bold;
   }
-  .clearFilter img {
-    border: 1px solid;
-    border-radius: 50%;
-  }
+}
