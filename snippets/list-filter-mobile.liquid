@@ -1,0 +1,71 @@
+<div class="filters-overlay"></div>
+<div class="filters">
+  <h4>Filters</h4>
+</div>
+
+<style>
+  .filters {
+    max-width: var(--sidebar-width);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: 0.5s ease-in-out;
+    z-index: 9999;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 25px;
+  }
+  .filters.open {
+    transform: translateX(0);
+  }
+  .filters.close {
+    transform: translateX(100%);
+  }
+  .filters-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 9998;
+  }
+  .filters-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+
+<script>
+  const filter = document.querySelector('.filters');
+  const filtersOverlay = document.querySelector('.filters-overlay');
+  const filterButton = document.querySelector('.filter-sidebar-trigger');
+
+  const openFilters = () => {
+    filter.classList.add('open');
+    filter.classList.remove('close');
+    filtersOverlay.classList.add('active');
+  };
+
+  const closeFilters = () => {
+    filter.classList.add('close');
+    filter.classList.remove('open');
+    filtersOverlay.classList.remove('active');
+  };
+
+  filterButton.addEventListener('click', openFilters);
+  filtersOverlay.addEventListener('click', closeFilters);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeFilters();
+    }
+  });
+</script>

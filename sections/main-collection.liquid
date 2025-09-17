@@ -1,10 +1,13 @@
 {% if collection.products_count > 0 %}
   <div class="collection">
     <h1 class="collection-title">{{ collection.title }}</h1>
+    <div class="collection-flex">
+      {% render 'list-filter' %}
+    </div>
     {% paginate collection.products by 10 %}
       <div class="collection-products__grid">
         {% for product in collection.products %}
-          <div class="product-{{product.id}}">
+          <div class="product-{{ product.id }}">
             {% render 'product-card', product: product %}
           </div>
         {% endfor %}
@@ -16,10 +19,9 @@
       {% endif %}
     {% endpaginate %}
   </div>
-{%- else -%}
+{% else %}
   <h1 class="result-not_found">No Products Found!</h1>
 {% endif %}
-
 <style>
   .collection {
     max-width: var(--narrow-page-width);
@@ -27,14 +29,18 @@
     margin: 0 auto;
     padding: 0 20px;
   }
-
+  .collection-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
   .collection-products__grid {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 15px;
   }
-
   .collection-title {
     margin: 30px 0;
     font-weight: 500;
@@ -51,6 +57,16 @@
     text-align: center;
     font-size: var(--font-size-xl);
     font-weight: 500;
+  }
+  @media (min-width: 768px) {
+    .collection-products__grid:has(> div:nth-child(2):last-child) {
+      grid-template-columns: repeat(2, minmax(240px, 300px));
+      justify-content: start;
+    }
+    .collection-products__grid:has(> div:only-child) > div {
+      max-width: 300px;
+      width: 100%;
+    }
   }
 
   @media (max-width: 768px) {

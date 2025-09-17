@@ -63,7 +63,7 @@
 .product_quick-actions {
   position: absolute;
   z-index: 99;
-  bottom: 94px;
+  bottom: 97px;
   right: 10px;
   transition: 0.5s ease-in-out;
   opacity: 0;

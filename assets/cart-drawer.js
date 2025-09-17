@@ -14,17 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.classList.remove("active");
   };
 
-  cartButton.addEventListener("click", () => {
-    openDrawer();
-  });
+  cartButton.addEventListener("click", openDrawer);
 
-  cartClose.addEventListener("click", () => {
-    closeDrawer();
-  });
+  cartClose.addEventListener("click", closeDrawer);
 
-  overlay.addEventListener("click", () => {
-    closeDrawer(); // clicking overlay closes cart
-  });
+  overlay.addEventListener("click", closeDrawer);
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
