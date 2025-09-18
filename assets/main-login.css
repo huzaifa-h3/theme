@@ -1,16 +1,115 @@
-.login{
-    max-width: var(--narrow-page-width);
-    width: 100%;
-    margin: 0 auto;
-    height: 100%;
+.login {
+  max-width: var(--narrow-page-width);
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
 }
-.login-title{
-    font-size: var(--font-size-xl);
+
+.login-title {
+  font-size: var(--font-size-xl);
 }
-.login-wrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.login-link {
+  margin-top: 15px;
+}
+.login-link a {
+  color: #1462b6;
+}
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 50px;
+}
+
+form#customer_login {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+  margin: 80px auto;
+  position: relative;
+}
+
+form#customer_login input {
+  margin-top: 15px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #7f7f7f;
+  border-radius: 0 !important;
+  outline: 0;
+  font-size: 17px;
+  color: #7f7f7f;
+  padding: 7px 0 6px;
+  background: transparent;
+  transition: border-color 0.2s, border-width 0.2s, padding 0.2s;
+}
+
+form#customer_login input::placeholder {
+  color: transparent;
+}
+
+form#customer_login .field {
+  position: relative;
+  margin-bottom: 20px;
+}
+.field--email input {
+  margin-bottom: 10px;
+}
+.input-text-label {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  font-size: 17px;
+  color: #7f7f7f;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+form#customer_login input:focus {
+  padding-bottom: 5px;
+  border-width: 2px;
+  border-image: linear-gradient(to right, #000000, #000000);
+  border-image-slice: 1;
+}
+
+form#customer_login input:focus ~ .input-text-label,
+form#customer_login input:not(:placeholder-shown) ~ .input-text-label {
+  top: -17px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+}
+
+form#customer_login input:required,
+form#customer_login input:invalid {
+  box-shadow: none;
+}
+
+.form-errors {
+  background: #ffebee;
+  color: #c62828;
+  padding: 10px 2px;
+  border-radius: 4px;
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.form-errors ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.btn-login--submit {
+  width: 100%;
+  margin: 25px auto;
+}
+.btn-login--submit button {
+  background-color: #000000;
+  color: white;
+  width: 100%;
+  padding: 6px 0;
+}
+.forgot-password-link {
+  padding-bottom: 5px;
 }

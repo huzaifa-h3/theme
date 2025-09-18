@@ -1,1 +1,7 @@
-<h1>Sign Up</h1>
+{{ 'main-register.css' | asset_url | stylesheet_tag }}
+<div class="register">
+  <div class="register-wrapper">
+    <h1 class="register-title">Create your account</h1>
+    <p class="register-link">Already have an account?<a href="{{ routes.account_register_url }}"> Login</a></p>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.register {
+  max-width: var(--narrow-page-width);
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+.register-title {
+  font-size: var(--font-size-xl);
+}
+.register-link {
+  margin-top: 15px;
+}
+.register-link a {
+  color: #1462b6;
+}
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 50px;
+}

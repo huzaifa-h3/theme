@@ -3,6 +3,47 @@
 <div class="login">
   <div class="login-wrapper">
     <h1 class="login-title">Login to your account</h1>
-    <a href="{{ routes.account_register_url }}">Don't an account? <span>Signup</span></a>
+    <p class="login-link">Don't have an account?<a href="{{ routes.account_register_url }}"> Signup</a></p>
+    {% form 'customer_login', novalidate: 'novalidate' %}
+      {% if form.errors %}
+        <div class="form-errors">
+          <ul>
+            {% for feild in form.errors %}
+              <li>Incorrect email or password</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+      <div class="field field--email">
+        <input
+          id="CustomerEmail"
+          class="customer-email"
+          name="customer[email]"
+          type="email"
+          placeholder="Email"
+          autocapitalize="off"
+          autocorrect="off"
+          autofocus
+          required
+          value="{{ form.email }}"
+        >
+        <label class="input-text-label" for="text">Email</label>
+      </div>
+      <div class="field field--password">
+        <input
+          id="CustomerPassword"
+          class="customer-password"
+          name="customer[password]"
+          type="password"
+          placeholder="Password"
+          required
+        >
+        <label class="input-text-label" for="text">Password</label>
+      </div>
+
+      <a class="forgot-password-link" href="{{ routes.account_recover_url }}">Forgot Password?</a>
+
+      <div class="btn-login--submit"><button type="submit">Sign in</button></div>
+    {% endform %}
   </div>
 </div>
