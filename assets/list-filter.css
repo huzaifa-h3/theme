@@ -30,7 +30,7 @@ details {
   font-size: var(--font-size-xs);
 }
 .filter-underlist {
-  padding: 15px;
+  padding: 10px;
   background: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   height: fit-content;
@@ -61,16 +61,16 @@ details {
   gap: 5px;
 }
 .sort-filter details ul {
-  padding: 20px;
-  background: #ffffff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 15px;
+  background: #fff;
+  box-shadow: #00000059 0 5px 15px;
   height: fit-content;
   border-radius: 10px;
   position: absolute;
   z-index: 9999;
-  width: 220px;
+  width: 170px;
   right: 0;
-  top: auto;
+  top: 30px;
 }
 .sort li label {
   padding: 3px 0;

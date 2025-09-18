@@ -35,33 +35,55 @@
 <script src="{{ 'main-section.js' | asset_url }}" defer></script>
 
 {% schema %}
-{
-  "name": "Slider",
-  "class": "slider",
-  "settings": [],
-  "blocks": [
-    {
-      "type": "slide",
-      "name": "Slide",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "slide_image",
-          "label": "Image"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Slider",
-      "settings": {},
-      "blocks": [
-        {
-          "type": "slide"
-        }
-      ]
-    }
-  ]
-}
+  {
+    "name": "Slider",
+    "class": "slider",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "slide",
+        "name": "Slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "slide_image",
+            "label": "Image"
+          },
+          {
+            "type": "richtext",
+            "id": "slider_title",
+            "label": "Slider Title",
+            "default": "<h1>UPTO 50% OFF</h1>"
+          },
+          {
+            "type": "textarea",
+            "id": "slider_tagline",
+            "label": "Tagline",
+            "default": "UPTO 50% SALE ON SELECTED STYLES"
+          },
+          {
+            "type": "url",
+            "id": "slider_url",
+            "label": "URL"
+          }, {
+            "type": "text",
+            "id": "slider_collection",
+            "label": "Slider Collection",
+            "default": "Men's"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Slider",
+        "settings": {},
+        "blocks": [
+          {
+            "type": "slide"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}

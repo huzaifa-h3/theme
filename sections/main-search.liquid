@@ -57,7 +57,7 @@
             <div class="search-result-card">
               <a href="{{ item.url }}">
                 <p>Article: {{ item.title }}</p>
-                <p>{{ item.excerpt | strip_html | truncate: 100 }}</p>
+                <p>{{ item.excerpt | strip_html }}</p>
               </a>
             </div>
           {% else %}

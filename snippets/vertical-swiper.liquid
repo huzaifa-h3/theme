@@ -10,7 +10,17 @@
   }
   .swiper-slide {
     transition: transform 0.3s ease-out;
+    position: relative;
   }
+.slider-content {
+  position: absolute;
+  z-index: 9999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
 </style>
 
 <div class="vertical-swiper">
@@ -22,6 +32,14 @@
             <img class="image_slide" src="{{ block.settings.slide_image | image_url }}" height="" width="">
           {% else %}
             {{ 'hero-apparel-2' | placeholder_svg_tag: 'image_slide' }}
+            <div class="slider-content">
+  {% if block.settings.slider_title %}
+    <h1 class="slider-title">{{ block.settings.slider_title }}</h1>
+  {% endif %}
+  {% if block.settings.slider_tagline %}
+    <p class="slider-tagline">{{ block.settings.slider_tagline }}</p>
+  {% endif %}
+</div>
           {% endif %}
         </div>
       {% endif %}
