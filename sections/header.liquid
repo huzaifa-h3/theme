@@ -5,13 +5,11 @@
       <a
         role="button"
         class="menu_btn"
-        id="menu_btn"
-      >
+        id="menu_btn">
         <img
           src="{{ 'icon-menu.svg' | asset_url }}"
           width="26"
-          height="36"
-        >
+          height="36">
       </a>
       {% render 'menu-sidebar' %}
     </div>
@@ -21,8 +19,7 @@
           <img
             src="{{ settings.logo | image_url }}"
             height=""
-            width="{{ settings.logo_width }}"
-          >
+            width="{{ settings.logo_width }}">
         {% else %}
           <h5>{{ shop.name }}</h5>
         {% endif %}
@@ -31,19 +28,20 @@
   </div>
   <div class="header_right">
     <div class="header_actions">
-      <a role="button" id="search-trigger-btn" aria-controls="main-search">
+      <a
+        role="button"
+        id="search-trigger-btn"
+        aria-controls="main-search">
         <img
           src="{{ 'icon-search.svg' | asset_url }}"
           width="18"
-          height="28"
-        >
+          height="28" />
       </a>
-      <a href="{{ routes.account_login_url }}">
+      <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">
         <img
           src="{{ 'icon-user.svg' | asset_url }}"
           width="18"
-          height="28"
-        >
+          height="28" />
       </a>
       <a role="button" class="cart-header_btn">
         {% if cart.item_count > 0 %}
@@ -56,8 +54,7 @@
         <img
           src="{{ 'icon-bag.svg' | asset_url }}"
           width="18"
-          height="28"
-        >
+          height="28">
       </a>
     </div>
   </div>
@@ -66,55 +63,52 @@
 
 <script src="{{ 'header.js' | asset_url }}" defer="defer"></script>
 {% schema %}
-{
-  "name": "Header",
-  "tag": "header",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Menu"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "default": "main-menu",
-      "label": "Select avigation Menu"
-    },
-    {
-      "type": "checkbox",
-      "label": "Show Collections",
-      "id": "show_collection",
-      "default": true
-    },
-    {
-      "type": "collection",
-      "id": "collection_1",
-      "label": "Collection"
-    },
-    {
-      "type": "collection",
-      "id": "collection_2",
-      "label": "Collection"
-    },
-    {
-      "type": "collection",
-      "id": "collection_3",
-      "label": "Collection"
-    },
-    {
-      "type": "richtext",
-      "id": "sale_end",
-      "label": "Offer/Sale",
-      "default": "<p>End Of Season Sale Upto 50% Off</p>"
-    }
-  ],
-  "presets": [
-    {
-      "name": "header",
-      "settings": {
-        "menu": "main-menu"
+  {
+    "name": "Header",
+    "tag": "header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Menu"
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "default": "main-menu",
+        "label": "Select avigation Menu"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Collections",
+        "id": "show_collection",
+        "default": true
+      },
+      {
+        "type": "collection",
+        "id": "collection_1",
+        "label": "Collection"
+      }, {
+        "type": "collection",
+        "id": "collection_2",
+        "label": "Collection"
+      }, {
+        "type": "collection",
+        "id": "collection_3",
+        "label": "Collection"
+      }, {
+        "type": "richtext",
+        "id": "sale_end",
+        "label": "Offer/Sale",
+        "default": "<p>End Of Season Sale Upto 50% Off</p>"
       }
-    }
-  ]
-}
+    ],
+    "presets": [
+      {
+        "name": "header",
+        "settings": {
+          "menu": "main-menu"
+        }
+      }
+    ]
+  }
 {% endschema %}

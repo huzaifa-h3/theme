@@ -1,1 +1,51 @@
-<h1>Account</h1>
+{{ 'main-account.css' | asset_url | stylesheet_tag }}
+
+<div class="account">
+  <div class="account-wrapper">
+    <h1 class="account-title">
+      {% assign current_hour = 'now' | date: '%H' | plus: 0 %}
+      {% if current_hour >= 5 and current_hour < 12 %}
+        Good Morning
+      {% elsif current_hour >= 12 and current_hour < 17 %}
+        Good Afternoon
+      {% else %}
+        Good Evening
+      {% endif %}, {{ customer.first_name | default: 'there' }}!
+    </h1>
+    <p class="account-subtitle">Manage your account details and preferences.</p>
+
+    <div class="account-sections">
+      {% if customer.orders_count > 0 %}
+        <div class="account-section">
+          <h2 class="section-title">Orders</h2>
+          <a href="{{ routes.account_orders_url }}" class="section-link">View your orders</a>
+          <p class="section-detail">You have {{ customer.orders_count }} order{{ customer.orders_count | pluralize }}.</p>
+        </div>
+      {% else %}
+        <div class="account-section">
+          <h2 class="section-title">Orders</h2>
+          <p class="section-detail">You have no orders yet.</p>
+        </div>
+      {% endif %}
+
+      <div class="account-section">
+        <h2 class="section-title">Addresses</h2>
+        <a href="{{ routes.account_addresses_url }}" class="section-link">Manage your addresses</a>
+      </div>
+
+      <div class="account-section">
+        <h2 class="section-title">Account Details</h2>
+        <a href="{{ routes.account_url }}" class="section-link">Edit your details</a>
+      </div>
+
+      <div class="account-section">
+        <h2 class="section-title">Payment Methods</h2>
+        <a href="{{ routes.account_payment_methods_url }}" class="section-link">Manage payment methods</a>
+      </div>
+    </div>
+
+    <div class="account-actions">
+      <a href="{{ routes.account_logout_url }}" class="btn btn--logout">Log out</a>
+    </div>
+  </div>
+</div>

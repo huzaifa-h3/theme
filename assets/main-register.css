@@ -21,3 +21,93 @@
   height: 100%;
   margin-top: 50px;
 }
+form#create_customer {
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  width: 100%;
+  margin: 50px auto;
+  position: relative;
+}
+
+form#create_customer input {
+  margin-top: 15px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #7f7f7f;
+  border-radius: 0 !important;
+  outline: 0;
+  font-size: 17px;
+  color: #7f7f7f;
+  padding: 7px 0 6px;
+  background: transparent;
+  transition: border-color 0.2s, border-width 0.2s, padding 0.2s;
+}
+
+form#create_customer input::placeholder {
+  color: transparent;
+}
+
+form#create_customer .field {
+  position: relative;
+  margin-bottom: 20px;
+}
+.field--email input {
+  margin-bottom: 10px;
+}
+.input-text-label {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  font-size: 17px;
+  color: #7f7f7f;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+form#create_customer input:focus {
+  padding-bottom: 5px;
+  border-width: 2px;
+  border-image: linear-gradient(to right, #000000, #000000);
+  border-image-slice: 1;
+}
+
+form#create_customer input:focus ~ .input-text-label,
+form#create_customer input:not(:placeholder-shown) ~ .input-text-label {
+  top: -1px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000000;
+}
+
+form#create_customer input:required,
+form#create_customer input:invalid {
+  box-shadow: none;
+}
+
+.form-errors {
+  background: #ffebee;
+  color: #c62828;
+  padding: 10px 2px;
+  border-radius: 4px;
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.form-errors ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.btn-login--submit {
+  width: 100%;
+  margin: 25px auto;
+}
+.btn-login--submit button {
+  background-color: #000000;
+  color: white;
+  width: 100%;
+  padding: 6px 0;
+}
+.forgot-password-link {
+  padding-bottom: 5px;
+}

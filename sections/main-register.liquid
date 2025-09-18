@@ -1,7 +1,89 @@
 {{ 'main-register.css' | asset_url | stylesheet_tag }}
+
 <div class="register">
   <div class="register-wrapper">
     <h1 class="register-title">Create your account</h1>
-    <p class="register-link">Already have an account?<a href="{{ routes.account_register_url }}"> Login</a></p>
+    <p class="register-link">Already have an account? <a href="{{ routes.account_login_url }}">Login</a></p>
+    {% form 'create_customer' %}
+      {% if form.errors %}
+        <div class="form-errors">
+          <h4>Errors:</h4>
+          <ul>
+            {% for field in form.errors %}
+              <li>{{ field | escape }}</li>
+            {% endfor %}
+          </ul>
+          {% if form.error %}
+            <p>General Error: {{ form.error | escape }}</p>
+          {% else %}
+            <p>No specific error details available. Please check all fields.</p>
+          {% endif %}
+          {% if form.posted_successfully? %}
+            <p>Registration successful! Redirecting...</p>
+            <script>window.location.href = "{{ routes.account_url }}";</script>
+          {% endif %}
+        </div>
+      {% endif %}
+      <div class="field first--name">
+        <input
+          id="CustomerFirstName"
+          class="customer-first-name"
+          name="customer[first_name]"
+          type="text"
+          placeholder=" "
+          autocapitalize="words"
+          autocorrect="off"
+          autofocus
+          required
+          aria-required="true"
+        >
+        <label class="input-text-label" for="CustomerFirstName">First Name</label>
+      </div>
+      <div class="field last--name">
+        <input
+          id="CustomerLastName"
+          class="customer-last-name"
+          name="customer[last_name]"
+          type="text"
+          placeholder=" "
+          autocapitalize="words"
+          autocorrect="off"
+          required
+          aria-required="true"
+        >
+        <label class="input-text-label" for="CustomerLastName">Last Name</label>
+      </div>
+      <div class="field field--email">
+        <input
+          id="CustomerEmail"
+          class="customer-email"
+          name="customer[email]"
+          type="email"
+          placeholder=" "
+          autocapitalize="off"
+          autocorrect="off"
+          required
+          aria-required="true"
+          value="{{ form.email }}"
+        >
+        <label class="input-text-label" for="CustomerEmail">Email</label>
+      </div>
+      <div class="field field--password">
+        <input
+          id="CustomerPassword"
+          class="customer-password"
+          name="customer[password]"
+          type="password"
+          placeholder=" "
+          required
+          aria-required="true"
+          minlength="8"
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+          title="Password must be at least 8 characters long and include uppercase, lowercase, and a number."
+        >
+        <label class="input-text-label" for="CustomerPassword">Password</label>
+      </div>
+          <div class="btn-login--submit"><button type="submit" value="Create">Sign up</button></div>
+    {% endform %}
   </div>
 </div>

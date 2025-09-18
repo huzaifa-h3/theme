@@ -26,9 +26,9 @@
 form#customer_login {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 420px;
   width: 100%;
-  margin: 80px auto;
+  margin: 50px auto;
   position: relative;
 }
 
@@ -59,7 +59,7 @@ form#customer_login .field {
 }
 .input-text-label {
   position: absolute;
-  top: 7px;
+  top: 18px;
   left: 0;
   font-size: 17px;
   color: #7f7f7f;
@@ -76,7 +76,7 @@ form#customer_login input:focus {
 
 form#customer_login input:focus ~ .input-text-label,
 form#customer_login input:not(:placeholder-shown) ~ .input-text-label {
-  top: -17px;
+  top: -1px;
   font-size: 15px;
   font-weight: 700;
   color: #000000;

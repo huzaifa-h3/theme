@@ -1,0 +1,96 @@
+.account {
+  max-width: var(--narrow-page-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.account-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.account-title {
+  font-size: var(--font-size-xl);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.account-subtitle {
+  font-size: var(--font-size-md);
+  color: #7f7f7f;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.account-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+}
+
+.account-section {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.account-section:hover {
+  transform: translateY(-5px);
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.section-link {
+  display: block;
+  font-size: var(--font-size-md);
+  color: #007bff;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.section-link:hover {
+  text-decoration: underline;
+}
+
+.section-detail {
+  font-size: var(--font-size-sm);
+  color: #7f7f7f;
+  margin: 0;
+}
+
+.account-actions {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn--logout {
+  padding: 12px 24px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn--logout:hover {
+  background: #c82333;
+}
+
+@media (max-width: 768px) {
+  .account-sections {
+    grid-template-columns: 1fr;
+  }
+}
