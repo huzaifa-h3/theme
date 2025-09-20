@@ -24,6 +24,8 @@
 
       // init swiper
       new Swiper('.swiper-grand', {
+        speed: 800,
+        easing: 'ease-out',
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',

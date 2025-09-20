@@ -1,0 +1,31 @@
+{{ 'list-collection.css' |  asset_url |  stylesheet_tag }}
+
+<div class="list-collection">
+    <div class="list-collection-wrapper">
+        <div class="list-collections-title">
+            <h1>All Collections</h1>
+            {% if shop.description != blank %}                
+                <p>{{shop.description}}</p>
+            {% endif %}
+        </div>
+        <div class="collections-list">
+            {% for collection in collections %}
+                {% unless collection.handle == 'frontpage' %}
+                    <a href="{{ collection.url }}">
+                        <div class="collection">
+                        {% comment %} Collection Image {% endcomment %}
+                         {% if collection.featured_image %}
+                            <img src="{{collection.featured_image |  image_url  }}" height=""
+                            width="" />
+                            {% else %}
+                                {{ 'collection-1' | placeholder_svg_tag: 'w-full h-full object-cover text-gray-400' }}
+                         {% endif %}
+                         <h6>{{ collection.title }}</h6>
+                         <p class="collection-product-count">{{ collection.all_products_count }} Products</p>
+                    </div>
+                    </a>
+                {% endunless %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

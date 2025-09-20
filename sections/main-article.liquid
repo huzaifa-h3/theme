@@ -75,14 +75,13 @@
     <div class="article-prev-next">
       {% if blog.previous_article %}
         <a href="{{blog.previous_article.url}}" class="article-prev">
-          {{ blog.previous_article }}
-          <img src="{{'chevron-left.svg'  |  asset_url}}" height="" width="32"> Prev
+          <img src="{{'chevron-left.svg'  |  asset_url}}" height="" width="32" /> Prev
         </a>
       {% endif %}
       {% if blog.next_article %}
         <a href="{{blog.next_article.url}}" class="article-next">
           Next
-          <img src="{{'chevron-right.svg' |  asset_url }}" height="" width="32" alt=""> {{ blog.next_article }}
+          <img src="{{'chevron-right.svg' |  asset_url }}" height="" width="32" alt="" />
         </a>
       {% endif %}
     </div>

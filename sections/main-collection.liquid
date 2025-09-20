@@ -4,7 +4,7 @@
     <div class="collection-flex">
       {% render 'list-filter' %}
     </div>
-    {% paginate collection.products by 10 %}
+    {% paginate collection.products by 20 %}
       <div class="collection-products__grid">
         {% for product in collection.products %}
           <div class="product-{{ product.id }}">

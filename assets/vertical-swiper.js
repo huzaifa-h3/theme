@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const swiperInstance = new Swiper(element, {
         direction: 'vertical',
         mousewheel: true,
+        speed: 800,
+        easing: 'ease-out',
         grabCursor: true,
         keyboard: {
           enabled: true,

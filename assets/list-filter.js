@@ -1,26 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const filtersForm = document.getElementById("CollectionFiltersForm");
   const sortForm = document.getElementById("CollectionSortForm");
-  const details = document.querySelectorAll("#CollectionFiltersForm details");
-
-  // Filter box toggle
-  details.forEach((detail) => {
-    detail.addEventListener("toggle", () => {
-      if (detail.open) {
-        details.forEach((others) => {
-          if (others !== detail) {
-            others.removeAttribute("open");
-          }
-        });
-      }
-    });
-  });
 
   // Filters submit
   document
-    .querySelectorAll('#CollectionFiltersForm input[type="checkbox"]')
-    .forEach((checkbox) => {
-      checkbox.addEventListener("change", () => {
+    .querySelectorAll('#CollectionFiltersForm input[type="checkbox"], #CollectionFiltersForm input[type="number"]')
+    .forEach((input) => {
+      input.addEventListener("change", () => {
         filtersForm.submit();
       });
     });
@@ -29,8 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".clearFilter").forEach((btn) => {
     btn.addEventListener("click", () => {
       const filterBox = btn.closest(".filter-box");
-      const checkboxes = filterBox.querySelectorAll('input[type="checkbox"]');
-      checkboxes.forEach((cb) => (cb.checked = false));
+      const inputs = filterBox.querySelectorAll('input[type="checkbox"], input[type="number"]');
+      inputs.forEach((input) => {
+        if (input.type === "checkbox") {
+          input.checked = false;
+        } else if (input.type === "number") {
+          input.value = "";
+        }
+      });
       filtersForm.submit();
     });
   });
@@ -40,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll('#CollectionSortForm input[name="sort_by"]')
     .forEach((radio) => {
       radio.addEventListener("change", () => {
-        sortForm.submit(); 
+        sortForm.submit();
       });
     });
 });

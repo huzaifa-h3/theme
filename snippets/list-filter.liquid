@@ -5,36 +5,58 @@
     <form id="CollectionFiltersForm">
       {% for filter in collection.filters %}
         <div class="filter-box">
-          <details>
-            <summary aria-label="{{ filter.label }}">{{ filter.label }}</summary>
-            <ul class="filter-underlist" role="listbox" aria-label="{{ filter.label }}">
-              {% for value in filter.values %}
-                <li class="filter">
-                  <input
-                    type="checkbox"
-                    name="{{ filter.param_name }}"
-                    value="{{ value.value }}"
-                    id="{{ filter.param_name }}-{{ forloop.index }}"
-                    hidden
-                    {% if value.active %}
-                      checked
-                    {% endif %}
-                  >
-                  {% if value.active %}
-                    <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
-                  {% endif %}
-                  <label for="{{ filter.param_name }}-{{ forloop.index }}">{{ value.label }}</label>
-                </li>
-              {% endfor %}
-            </ul>
-          </details>
-          <button class="filter-chevron-down" style="border: none;" type="button" aria-label="Expand filter">
-            <img src="{{ 'chevron-down.svg' | asset_url }}" height="auto" width="12" alt="Expand">
-          </button>
-          {% if filter.active_values.size > 0 %}
-            <button class="clearFilter">
-              Clear <img src="{{ 'icon-cross.svg' | asset_url }}" height="12" width="12" alt="Clear">
+          {% if filter.type == 'price_range' %}
+            <details>
+              <summary aria-label="{{ filter.label | escape }}">Price</summary>
+              <div class="filter-underlist price-range" role="region" aria-label="{{ filter.label | escape }}">
+                <div class="price-range-slider">
+                  <p class="range-value">
+                    <input type="text" id="amount" readonly>
+                  </p>
+                  <div id="slider-range" class="range-bar"></div>
+                </div>
+              </div>
+            </details>
+            <button class="filter-chevron-down" style="border: none;" type="button" aria-label="Expand price filter">
+              <img src="{{ 'chevron-down.svg' | asset_url }}" height="auto" width="12" alt="Expand">
             </button>
+            {% if filter.min_value.value or filter.max_value.value %}
+              <button class="clearFilter" type="button" aria-label="Clear price filter">
+                Clear <img src="{{ 'icon-cross.svg' | asset_url }}" height="12" width="12" alt="Clear">
+              </button>
+            {% endif %}
+          {% else %}
+            <details>
+              <summary aria-label="{{ filter.label }}">{{ filter.label }}</summary>
+              <ul class="filter-underlist" role="listbox" aria-label="{{ filter.label }}">
+                {% for value in filter.values %}
+                  <li class="filter">
+                    <input
+                      type="checkbox"
+                      name="{{ filter.param_name }}"
+                      value="{{ value.value }}"
+                      id="{{ filter.param_name }}-{{ forloop.index }}"
+                      hidden
+                      {% if value.active %}
+                        checked
+                      {% endif %}
+                    >
+                    {% if value.active %}
+                      <img src="{{ 'icon-check.svg' | asset_url }}" height="auto" width="15">
+                    {% endif %}
+                    <label for="{{ filter.param_name }}-{{ forloop.index }}">{{ value.label }}</label>
+                  </li>
+                {% endfor %}
+              </ul>
+            </details>
+            <button class="filter-chevron-down" style="border: none;" type="button" aria-label="Expand filter">
+              <img src="{{ 'chevron-down.svg' | asset_url }}" height="auto" width="12" alt="Expand">
+            </button>
+            {% if filter.active_values.size > 0 %}
+              <button class="clearFilter" type="button" aria-label="Clear {{ filter.label | escape }} filter">
+                Clear <img src="{{ 'icon-cross.svg' | asset_url }}" height="12" width="12" alt="Clear">
+              </button>
+            {% endif %}
           {% endif %}
         </div>
       {% endfor %}
@@ -61,8 +83,8 @@
         </summary>
         <ul class="sort" role="listbox" aria-label="Sort options">
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="manual"
@@ -78,8 +100,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="best-selling"
@@ -95,8 +117,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="title-ascending"
@@ -112,8 +134,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="title-descending"
@@ -129,8 +151,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="price-ascending"
@@ -146,8 +168,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="price-descending"
@@ -163,8 +185,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="created-ascending"
@@ -180,8 +202,8 @@
             >
           </li>
           <li>
-            <label
-              ><input
+            <label>
+              <input
                 type="radio"
                 name="sort_by"
                 value="created-descending"
